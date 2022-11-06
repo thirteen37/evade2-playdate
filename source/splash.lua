@@ -1,6 +1,7 @@
 import "CoreLibs/animation"
 import "CoreLibs/animator"
 
+import "camera.lua"
 import "font.lua"
 import "sound.lua"
 
@@ -19,6 +20,7 @@ function SplashEntry()
   theta = gfx.animator.new(2400, 90, 810)
   transition = false
   playdate.timer.new(8000, function() transition = true end)
+  CameraVZ(CAMERA_VZ)
 end
 
 function SplashWait()

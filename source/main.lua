@@ -1,7 +1,9 @@
 import "CoreLibs/animation"
 import "CoreLibs/timer"
 
+import "camera.lua"
 import "splash.lua"
+import "starfield.lua"
 
 local gfx <const> = playdate.graphics
 
@@ -16,9 +18,12 @@ MODE_NEXT_WAVE = 5
 MODE_GAMEOVER  = 6
 local game_mode = MODE_SPLASH
 SplashEntry()
+StarfieldInit()
 
 function playdate.update()
   gfx.clear()
+  CameraMove()
+  StarfieldRender()
   local prev_game_mode = game_mode
   local new_game_mode
   if game_mode == MODE_SPLASH then
