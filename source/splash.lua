@@ -2,11 +2,10 @@ import "CoreLibs/animation"
 import "CoreLibs/animator"
 
 import "font.lua"
+import "sound.lua"
 
 local gfx <const> = playdate.graphics
-local snd <const> = playdate.sound
 
-local sequence = snd.sequence.new("sounds/evade2_00_intro.mid")
 local blinker = gfx.animation.blinker.new()
 blinker.onDuration = 500
 blinker.offDuration = 500
@@ -15,13 +14,11 @@ local attractMode = true
 local transition
 
 function SplashEntry()
-  sequence:play()
+  PlayScore("sounds/evade2_00_intro_long.mid")
   blinker:startLoop()
   theta = gfx.animator.new(2400, 90, 810)
   transition = false
-  playdate.timer.new(8000, function()
-                       transition = true
-                       end)
+  playdate.timer.new(8000, function() transition = true end)
 end
 
 function SplashWait()
