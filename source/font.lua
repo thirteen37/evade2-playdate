@@ -28,8 +28,9 @@ function FontPrintString(x, y, s, fscale)
 end
 
 function FontPrintStringRotatedX(x, y, theta, s, fscale)
-  local cost = math.cos(math.rad(theta))
-  local sint = math.sin(math.rad(theta))
+  local rad = math.rad(theta)
+  local cost = math.cos(rad)
+  local sint = math.sin(rad)
   local transform = geo.affineTransform.new()
   transform:scale(fscale)
   transform:scale(1, sint)

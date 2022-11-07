@@ -1,6 +1,7 @@
 import "CoreLibs/animation"
 import "CoreLibs/timer"
 
+import "attract.lua"
 import "camera.lua"
 import "splash.lua"
 import "starfield.lua"
@@ -29,6 +30,7 @@ function playdate.update()
   if game_mode == MODE_SPLASH then
     new_game_mode = SplashWait()
   elseif game_mode == MODE_ATTRACT then
+    new_game_mode = AttractTypewriter()
   elseif game_mode == MODE_CREDITS then
   elseif game_mode == MODE_GAME then
   elseif game_mode == MODE_NEXT_WAVE then
@@ -39,6 +41,7 @@ function playdate.update()
     if game_mode == MODE_SPLASH then
       SplashEntry()
     elseif game_mode == MODE_ATTRACT then
+      AttractEntry()
     elseif game_mode == MODE_CREDITS then
     elseif game_mode == MODE_GAME then
     elseif game_mode == MODE_NEXT_WAVE then
