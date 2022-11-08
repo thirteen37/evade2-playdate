@@ -61,7 +61,7 @@ for name, sfx in pairs(RAW_SOUNDS) do
   sfxTrack:setNotes(sfx.notes)
   sfxTrack:setInstrument(sfx.instrument or sfxInstrument)
   local sfxSequence = snd.sequence.new()
-  sfxSequence:setTempo(sfx.tempo)
+  sfxSequence:setTempo(sfx.tempo >= 8 and sfx.tempo or 8)
   sfxSequence:addTrack(sfxTrack)
   SOUNDS[name] = sfxSequence
 end
