@@ -1,15 +1,14 @@
-import "CoreLibs/animator"
 import "CoreLibs/timer"
 
 import "enemy.lua"
 import "graphics.lua"
-
-local gfx <const> = playdate.graphics
+import "sound.lua"
 
 local screen
 local currentScreen
-local typewriter
-local hold
+local typewriterTimer
+local holdTimer
+local offset
 
 local SCREENS = {
   {graphics=ENEMY_GRAPHICS["scout"],
@@ -23,16 +22,38 @@ local SCREENS = {
    x=37, y=52},
 }
 
-local function next(t)
-  if t and t ~= hold then return end
+local next
+local function typewriterUpdate(t)
+  if offset < #(currentScreen.text) then
+    offset += 1
+    PlaySound("next_attract_char")
+  else
+    t:remove()
+    if not holdTimer then
+      holdTimer = playdate.timer.new(2000, next)
+    end
+  end
+end
+
+function next()
+  offset = 0
+  if typewriterTimer then
+    typewriterTimer:remove()
+    typewriterTimer = nil
+  end
+  if holdTimer then
+    holdTimer:remove()
+    holdTimer = nil
+  end
   screen += 1
   if screen > #SCREENS then
     return MODE_SPLASH
   end
   currentScreen = SCREENS[screen]
-  local charCount = #(currentScreen.text)
-  typewriter = gfx.animator.new(100 * (charCount+1), 1, charCount)
-  hold = playdate.timer.new(2000, next)
+  typewriterTimer = playdate.timer.new(100, typewriterUpdate)
+  typewriterTimer.repeats = true
+  PlaySound("next_attract_screen")
+  PlaySound("next_attract_char")
 end
 
 function AttractTypewriter()
@@ -43,7 +64,7 @@ function AttractTypewriter()
     return next()
   end
   DrawVectorGraphic(currentScreen.graphics, 64, 24, 0, 2)
-  FontPrintString(currentScreen.x, currentScreen.y, currentScreen.text:sub(1, math.floor(typewriter:currentValue())), 1)
+  FontPrintString(currentScreen.x, currentScreen.y, currentScreen.text:sub(1, offset), 1)
   if screen > #SCREENS then
     return MODE_SPLASH
   end
