@@ -64,7 +64,7 @@ function AttractTypewriter()
     return next()
   end
   DrawVectorGraphic(currentScreen.graphics, 64, 24, 0, 2)
-  FontPrintString(currentScreen.x, currentScreen.y, currentScreen.text:sub(1, offset), 1)
+  FontPrintString(currentScreen.x, currentScreen.y, currentScreen.text:sub(1, offset))
   if screen > #SCREENS then
     return MODE_SPLASH
   end

@@ -38,8 +38,9 @@ function SplashWait()
       attractMode = true
     end
     return next_mode
-  else
-
+  end
+  if playdate.buttonJustPressed(playdate.kButtonA) or playdate.buttonJustPressed(playdate.kButtonB) then
+    return MODE_GAME
   end
 end
 

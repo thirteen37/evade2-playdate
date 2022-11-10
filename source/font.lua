@@ -20,6 +20,7 @@ function FontWrite(x, y, c, fscale)
 end
 
 function FontPrintString(x, y, s, fscale)
+  fscale = fscale or 1
   local xx = x
   for c in s:gmatch(".") do
     xx += FontWrite(xx, y, c, fscale)
@@ -28,6 +29,7 @@ function FontPrintString(x, y, s, fscale)
 end
 
 function FontPrintStringRotatedX(x, y, theta, s, fscale)
+  fscale = fscale or 1
   local rad = math.rad(theta)
   local cost = math.cos(rad)
   local sint = math.sin(rad)
