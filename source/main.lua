@@ -4,6 +4,7 @@ import "CoreLibs/timer"
 import "attract.lua"
 import "camera.lua"
 import "credits.lua"
+import "game.lua"
 import "splash.lua"
 import "starfield.lua"
 
@@ -35,6 +36,7 @@ function playdate.update()
   elseif game_mode == MODE_CREDITS then
     new_game_mode = CreditsTypewriter()
   elseif game_mode == MODE_GAME then
+    new_game_mode = GameNext()
   elseif game_mode == MODE_NEXT_WAVE then
   elseif game_mode == MODE_GAMEOVER then
   end
@@ -47,6 +49,7 @@ function playdate.update()
     elseif game_mode == MODE_CREDITS then
       CreditsEntry()
     elseif game_mode == MODE_GAME then
+      GameEntry()
     elseif game_mode == MODE_NEXT_WAVE then
     elseif game_mode == MODE_GAMEOVER then
     end
