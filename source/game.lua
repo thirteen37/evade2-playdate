@@ -1,5 +1,6 @@
 import "CoreLibs/animator"
 
+import "enemy.lua"
 import "font.lua"
 import "player.lua"
 
@@ -8,6 +9,14 @@ local gfx <const> = playdate.graphics
 local nextFunction
 local enemies = {}
 local asteriods = {}
+local difficulty
+local kills
+local wave
+local theta
+
+function GameWave()
+  return wave
+end
 
 local function getStageSong()
   if wave % 5 == 0 then
@@ -25,12 +34,14 @@ end
 
 local function gameBirth()
   for i = 1, 3 do
-    -- table.insert(Enemy:new())
+    local enemy = Enemy:new()
+    enemy:entry()
+    table.insert(enemies, enemy)
   end
   if wave > 3 then
     local num_asteroids = math.min(math.max(wave, 3), 1) + 1
     for i = 1, num_asteroids do
-      -- table.insert(Asteroid:new())
+      -- table.insert(asteroids, Asteroid:new())
     end
   end
  end
@@ -44,7 +55,13 @@ local function startGame()
   gameBirth()
 end
 
-local function run()
+local function gameRun()
+  for _, enemy in pairs(enemies) do
+    enemy:draw()
+  end
+  for _, asteroid in pairs(asteriods) do
+    asteroid:draw()
+  end
   if kills > ((10 + wave) * difficulty) then
     kills = 120
     CameraVZ(30)
@@ -56,7 +73,7 @@ local function getReady()
   FontPrintStringRotatedX(30, 35, theta:currentValue(), "GET READY!")
   if theta:ended() then
     startGame()
-    nextFunction = run
+    nextFunction = gameRun
   end
 end
 

@@ -12,18 +12,22 @@ function CameraMove()
   z += vz
 end
 
-function CameraX()
+function CameraX(new_x)
+  if new_x then x = new_x end
   return x
 end
 
-function CameraY()
+function CameraY(new_y)
+  if new_y then y = new_y end
   return y
 end
 
-function CameraZ()
+function CameraZ(new_z)
+  if new_z then z = new_z end
   return z
 end
 
 function CameraVZ(new_vz)
-  vz = new_vz
+  if new_vz then vz = new_vz end
+  return vz
 end
