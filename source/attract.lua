@@ -1,6 +1,6 @@
 import "CoreLibs/timer"
 
-import "enemy.lua"
+import "enemy_gfx.lua"
 import "graphics.lua"
 import "sound.lua"
 
