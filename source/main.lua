@@ -5,6 +5,8 @@ import "attract.lua"
 import "camera.lua"
 import "credits.lua"
 import "game.lua"
+import "next_wave.lua"
+import "player.lua"
 import "splash.lua"
 import "starfield.lua"
 
@@ -26,6 +28,9 @@ StarfieldInit()
 function playdate.update()
   gfx.clear()
   CameraMove()
+  if game_mode == MODE_GAME or game_mode == MODE_NEXT_WAVE then
+    BeforeRender()
+  end
   StarfieldRender()
   local prev_game_mode = game_mode
   local new_game_mode
@@ -38,9 +43,15 @@ function playdate.update()
   elseif game_mode == MODE_GAME then
     new_game_mode = GameNext()
   elseif game_mode == MODE_NEXT_WAVE then
+    new_game_mode = NextWaveRun()
   elseif game_mode == MODE_GAMEOVER then
   end
-  ObjectRun()
+  if game_mode == MODE_GAME or game_mode == MODE_NEXT_WAVE then
+    ObjectRun()
+  end
+  if game_mode == MODE_GAME then
+    AfterRender()
+  end
   game_mode = new_game_mode or game_mode
   if prev_game_mode ~= game_mode then
     if game_mode == MODE_SPLASH then
@@ -52,6 +63,7 @@ function playdate.update()
     elseif game_mode == MODE_GAME then
       GameEntry()
     elseif game_mode == MODE_NEXT_WAVE then
+      NextWaveEntry()
     elseif game_mode == MODE_GAMEOVER then
     end
   end

@@ -6,7 +6,7 @@ local objects = {}
 
 function Run()
   for _, o in pairs(objects) do
-	o:move()
+    o:move()
     o:draw()
     -- TODO: check collisions
   end

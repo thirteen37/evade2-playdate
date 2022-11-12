@@ -40,7 +40,7 @@ function SplashWait()
     return next_mode
   end
   if playdate.buttonJustPressed(playdate.kButtonA) or playdate.buttonJustPressed(playdate.kButtonB) then
-    return MODE_GAME
+    return MODE_NEXT_WAVE
   end
 end
 

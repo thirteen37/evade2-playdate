@@ -1,20 +1,14 @@
-import "CoreLibs/animator"
-
 import "enemy.lua"
 import "eprojectile.lua"
 import "font.lua"
 import "object.lua"
 import "player.lua"
 
-local gfx <const> = playdate.graphics
-
-local nextFunction
 local enemies = {}
 local asteriods = {}
 local difficulty
 local kills
 local wave
-local theta
 
 function GameWave()
   return wave
@@ -52,18 +46,7 @@ local function gameBirth()
   end
  end
 
-local function startGame()
-  difficulty = 1
-  kills = 0
-  wave = 1
-  PlayScore(getStageSong())
-  PlayerInit()
-  gameBirth()
-end
-
--- TODO: next_wave
-
-local function gameRun()
+function GameNext()
   Run()
   if kills > ((10 + wave) * difficulty) then
     kills = 120
@@ -72,22 +55,13 @@ local function gameRun()
   end
 end
 
-local function getReady()
-  FontPrintStringRotatedX(30, 35, theta:currentValue(), "GET READY!")
-  if theta:ended() then
-    startGame()
-    nextFunction = gameRun
-  end
-end
-
-function GameNext()
-  return nextFunction()
-end
-
 function GameEntry()
-  nextFunction = getReady
-  theta = gfx.animator.new(2166, 90, 870)
-  PlayScore("sounds/evade2_12_next_wave.mid")
+  difficulty = 1
+  kills = 0
+  wave = 1
+  PlayScore(getStageSong())
+  PlayerInit()
+  gameBirth()
 end
 
 function GameKilled()

@@ -1,0 +1,19 @@
+import "CoreLibs/animator"
+
+import "game.lua"
+
+local gfx <const> = playdate.graphics
+
+local theta
+
+function NextWaveEntry()
+  theta = gfx.animator.new(2166, 90, 870)
+  PlayScore("sounds/evade2_12_next_wave.mid")
+end
+
+function NextWaveRun()
+  FontPrintStringRotatedX(30, 35, theta:currentValue(), "GET READY!")
+  if theta:ended() then
+    return MODE_GAME
+  end
+end
