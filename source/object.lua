@@ -56,6 +56,10 @@ function Object:move()
   self.z += self.vz
 end
 
+function Object:showsRadar()
+  return false
+end
+
 function Object:draw()
   if #self.lines == 0 or self.z <= CameraZ() then return end
   local zz = (self.z - CameraZ()) * 2
@@ -65,6 +69,21 @@ function Object:draw()
   if self.explode then
     ExplodeVectorGraphic(self.lines, cx, cy, self.theta, 1 / ratio, self.state)
   else
-    DrawVectorGraphic(self.lines, cx, cy, self.theta, 1 / ratio)
+    if not DrawVectorGraphic(self.lines, cx, cy, self.theta, 1 / ratio) and self:showsRadar() then
+      local dx = CameraX() - self.x
+      local dy = CameraY() - self.y
+      local angle = math.atan(dy, dx)
+      DrawVectorGraphic(
+        {
+          {1 - 2, 0 - 2, 2 - 2, 0 - 2},
+          {0 - 2, 1 - 2, 3 - 2, 1 - 2},
+          {0 - 2, 2 - 2, 3 - 2, 2 - 2},
+          {1 - 2, 3 - 2, 2 - 2, 3 - 2},
+        },
+        SCREEN_WIDTH / 2 + math.cos(angle) * 32,
+        SCREEN_HEIGHT / 2 + math.sin(angle) * 32,
+        0, 1
+      )
+    end
   end
 end

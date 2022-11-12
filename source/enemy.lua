@@ -192,3 +192,7 @@ end
 function Enemy:entry()
   return respawn(self)
 end
+
+function Enemy:showsRadar()
+  return true
+end
