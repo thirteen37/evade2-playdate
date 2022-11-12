@@ -31,6 +31,7 @@ function EProjectile:run()
     self.state -= 1
     if self.state <= 0 then
       Free(self)
+      Remove(projectiles, self)
       return
     end
   end

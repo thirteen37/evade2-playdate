@@ -16,9 +16,9 @@ function Alloc(o)
   table.insert(objects, o)
 end
 
-function Free(o)
+function Remove(t, o)
   local index
-  for i, oi in pairs(objects) do
+  for i, oi in pairs(t) do
 	if o == oi then
       index = i
       goto continue
@@ -26,8 +26,12 @@ function Free(o)
   end
   ::continue::
   if index then
-    table.remove(objects, index)
+    table.remove(t, index)
   end
+end
+
+function Free(o)
+  Remove(objects, o)
 end
 
 Object = {}

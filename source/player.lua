@@ -1,3 +1,4 @@
+import "bullet.lua"
 import "camera.lua"
 
 local gfx <const> = playdate.graphics
@@ -8,7 +9,6 @@ DELTACONTROL = 11
 
 local shield = -1
 local power = -1
-local num_bullets = 0
 local player_alt = false
 local player_hit = false
 
@@ -16,7 +16,7 @@ function PlayerInit()
   CameraVZ(CAMERA_VZ)
   power = MAX_POWER
   shield = MAX_LIFE
-  num_bullets = 0
+  BulletGenocide()
   player_alt = false
   player_hit = false
 end
@@ -80,10 +80,9 @@ function BeforeRender()
     if playdate.buttonIsPressed(playdate.kButtonDown) then
       deltaY = 12
     end
-    -- TODO
-    -- local bullet = Bullet.new()
-    -- bullet:fire(deltaX, deltaY, player_alt)
-    player_alt = true
+    local bullet = Bullet:new()
+    bullet:fire(deltaX, deltaY, player_alt)
+    player_alt = not player_alt
   end
   if playdate.buttonIsPressed(playdate.kButtonB) then
     if power > 0 then
