@@ -8,13 +8,20 @@ local sequence
 
 function PlayScore(midiFile)
   if sequence and sequence:isPlaying() then
-    sequence:stop()
+    local s = sequence
+    sequence = nil
+    s:stop()
   end
   sequence = snd.sequence.new(midiFile)
   for i = 1, sequence:getTrackCount() do
     sequence:getTrackAtIndex(i):setInstrument(instrument)
   end
-  sequence:play()
+  function replay(s)
+    if not s or sequence == s then
+      sequence:play(replay)
+    end
+  end
+  replay()
 end
 
 RAW_SOUNDS = {
