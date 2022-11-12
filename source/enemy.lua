@@ -1,6 +1,7 @@
 import "CoreLibs/timer"
 
 import "enemy_gfx.lua"
+import "eprojectile.lua"
 import "game.lua"
 import "object.lua"
 
@@ -78,7 +79,13 @@ local function fire(self)
       return
     end
     local isBullet = (math.random(0, 5) > 0)
-    if isBullet then print("fire", isBullet) end
+    if isBullet then
+      local bullet = EBullet:new()
+      bullet:fire(self)
+    else
+      local bomb = EBomb:new()
+      bomb:fire(self)
+    end
     self.fireCountdown = fireTime()
   else
     self.fireCountdown -= 1
@@ -133,6 +140,20 @@ local function seek(self)
 end
 
 Enemy = Object:new()
+
+enemies = {}
+
+function Enemy:new()
+  table.insert(enemies, self)
+  return Object.new(self)
+end
+
+function EnemyGenocide()
+  for _, enemy in pairs(enemies) do
+    Free(enemy)
+  end
+  enemies = {}
+end
 
 local function init(self)
   self.explode = false

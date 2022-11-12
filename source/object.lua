@@ -2,6 +2,34 @@ import "camera.lua"
 
 SCREEN_WIDTH, SCREEN_HEIGHT = 128, 64
 
+local objects = {}
+
+function Run()
+  for _, o in pairs(objects) do
+	o:move()
+    o:draw()
+    -- TODO: check collisions
+  end
+end
+
+function Alloc(o)
+  table.insert(objects, o)
+end
+
+function Free(o)
+  local index
+  for i, oi in pairs(objects) do
+	if o == oi then
+      index = i
+      goto continue
+    end
+  end
+  ::continue::
+  if index then
+    table.remove(objects, index)
+  end
+end
+
 Object = {}
 
 function Object:new(o)
@@ -18,6 +46,7 @@ function Object:new(o)
   o.lines = {}
   o.explode = false
   o.state = 0
+  Alloc(o)
   return o
 end
 

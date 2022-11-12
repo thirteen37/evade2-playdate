@@ -1,7 +1,9 @@
 import "CoreLibs/animator"
 
 import "enemy.lua"
+import "eprojectile.lua"
 import "font.lua"
+import "object.lua"
 import "player.lua"
 
 local gfx <const> = playdate.graphics
@@ -19,6 +21,10 @@ function GameWave()
 end
 
 local function getStageSong()
+  EProjectileGenocide()
+  -- BulletGenocide()
+  EnemyGenocide()
+
   if wave % 5 == 0 then
     return "sounds/evade2_09_stage_5.mid"
   elseif wave % 4 == 0 then
@@ -55,14 +61,10 @@ local function startGame()
   gameBirth()
 end
 
+-- TODO: next_wave
+
 local function gameRun()
-  for _, enemy in pairs(enemies) do
-    enemy:move()
-    enemy:draw()
-  end
-  for _, asteroid in pairs(asteriods) do
-    asteroid:draw()
-  end
+  Run()
   if kills > ((10 + wave) * difficulty) then
     kills = 120
     CameraVZ(30)
