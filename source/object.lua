@@ -13,6 +13,7 @@ function Object:new(o)
   o.z = 0
   o.vx = 0
   o.vy = 0
+  o.vz = 0
   o.theta = 0
   o.lines = {}
   o.explode = false

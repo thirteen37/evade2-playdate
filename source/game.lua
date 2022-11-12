@@ -57,6 +57,7 @@ end
 
 local function gameRun()
   for _, enemy in pairs(enemies) do
+    enemy:move()
     enemy:draw()
   end
   for _, asteroid in pairs(asteriods) do
@@ -85,4 +86,12 @@ function GameEntry()
   nextFunction = getReady
   theta = gfx.animator.new(2166, 90, 870)
   PlayScore("sounds/evade2_12_next_wave.mid")
+end
+
+function GameKilled()
+  kills += 1
+end
+
+function GameDifficulty()
+  return difficulty
 end

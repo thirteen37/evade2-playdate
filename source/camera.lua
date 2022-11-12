@@ -31,3 +31,13 @@ function CameraVZ(new_vz)
   if new_vz then vz = new_vz end
   return vz
 end
+
+function CameraVY(new_vy)
+  if new_vy then vy = new_vy end
+  return vy
+end
+
+function CameraVX(new_vx)
+  if new_vx then vx = new_vx end
+  return vx
+end
