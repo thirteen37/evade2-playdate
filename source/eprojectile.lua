@@ -20,9 +20,20 @@ function EProjectile:fire(enemy)
   self.vz = CameraVZ() - (self.z - CameraZ()) / frames
 end
 
-function EProjectile:move()
-  -- TODO: run
-  Object.move(self)
+function EProjectile:run()
+  Object.run(self)
+  if self:collidesWithCamera() then
+    -- TODO: is in game mode?
+    Hit(10)
+    Free(self)
+    return
+  elseif self.x < CameraZ() then
+    self.state -= 1
+    if self.state <= 0 then
+      Free(self)
+      return
+    end
+  end
 end
 
 function EProjectileGenocide()
@@ -44,6 +55,11 @@ function EBullet:fire(enemy)
   return EProjectile.fire(self, enemy)
 end
 
+function EBullet:run()
+  EProjectile.run(self)
+  self.theta += 40
+end
+
 EBomb = EProjectile:new()
 
 function EBomb:fire(enemy)
@@ -59,4 +75,9 @@ function EBomb:fire(enemy)
     {8 - 8,  8 - 8,  9 - 8,  9 - 8},
   }
   return EProjectile.fire(self, enemy)
+end
+
+function EBomb:run()
+  EProjectile.run(self)
+  self.theta += self.x
 end

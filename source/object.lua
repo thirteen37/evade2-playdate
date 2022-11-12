@@ -87,3 +87,18 @@ function Object:draw()
     end
   end
 end
+
+function Object:run()
+end
+
+function ObjectRun()
+  for _, o in pairs(objects) do
+    o:run()
+  end
+end
+
+function Object:collidesWithCamera()
+  return math.abs(self.z - CameraZ()) < math.abs(self.vz) and
+    math.abs(self.x - CameraX()) < 64 and
+    math.abs(self.y - CameraY()) < 64
+end

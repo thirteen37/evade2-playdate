@@ -3,11 +3,11 @@ import "camera.lua"
 MAX_POWER = 100
 MAX_LIFE = 100
 
-shield = -1
-power = -1
-num_bullets = 0
-player_alt = false
-player_hit = false
+local shield = -1
+local power = -1
+local num_bullets = 0
+local player_alt = false
+local player_hit = false
 
 function PlayerInit()
   CameraVZ(CAMERA_VZ)
@@ -27,5 +27,16 @@ end
 function RechargePower()
   if power < MAX_POWER then
     power += 1
+  end
+end
+
+function Hit(amount)
+  shield -= amount
+  if (shield <= 0) then
+    print("game over")
+  else
+    player_hit = true
+    PlaySound("player_hit")
+    print("hit", shield)
   end
 end

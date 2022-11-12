@@ -40,6 +40,7 @@ function playdate.update()
   elseif game_mode == MODE_NEXT_WAVE then
   elseif game_mode == MODE_GAMEOVER then
   end
+  ObjectRun()
   game_mode = new_game_mode or game_mode
   if prev_game_mode ~= game_mode then
     if game_mode == MODE_SPLASH then
