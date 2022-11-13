@@ -121,9 +121,3 @@ function ObjectRun()
     o:run()
   end
 end
-
-function Object:collidesWithCamera()
-  return math.abs(self.z - CameraZ()) < math.abs(self.vz) and
-    math.abs(self.x - CameraX()) < 64 and
-    math.abs(self.y - CameraY()) < 64
-end

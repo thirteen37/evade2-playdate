@@ -22,7 +22,7 @@ end
 
 function EProjectile:run()
   Object.run(self)
-  if self:collidesWithCamera() then
+  if CameraCollidesWith(self) then
     -- TODO: is in game mode?
     Hit(10)
     Free(self)

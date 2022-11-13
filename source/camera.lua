@@ -41,3 +41,8 @@ function CameraVX(new_vx)
   if new_vx then vx = new_vx end
   return vx
 end
+
+function CameraCollidesWith(o)
+  return math.abs(o.z - z) < math.abs(o.vz) and
+    math.abs(o.x - x) < 64 and math.abs(o.y - y) < 64
+end
