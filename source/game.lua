@@ -52,11 +52,14 @@ function GameNext()
 end
 
 function GameEntry()
-  difficulty = 1
+  wave += 1
+  if wave % 4 == 0 then
+    difficulty += 1
+  end
   kills = 0
-  wave = 1
+  CameraVZ(CAMERA_VZ)
+  EnemyGenocide()
   PlayScore(getStageSong())
-  PlayerInit()
   gameBirth()
 end
 
@@ -66,4 +69,11 @@ end
 
 function GameDifficulty()
   return difficulty
+end
+
+function GameInit()
+  difficulty = 1
+  kills = 0
+  wave = 0
+  PlayerInit()
 end

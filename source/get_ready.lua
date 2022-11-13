@@ -9,6 +9,7 @@ local theta
 function GetReadyEntry()
   theta = gfx.animator.new(2166, 90, 870)
   PlayScore("sounds/evade2_12_next_wave.mid")
+  GameInit()
 end
 
 function GetReadyRun()
