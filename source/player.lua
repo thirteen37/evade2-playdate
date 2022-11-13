@@ -166,3 +166,7 @@ function Hit(amount)
     PlaySound("player_hit")
   end
 end
+
+function PlayerDead()
+  return shield <= 0
+end

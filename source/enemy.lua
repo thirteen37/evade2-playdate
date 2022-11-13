@@ -147,12 +147,7 @@ end
 
 Enemy = Object:new()
 
-enemies = {}
-
-function Enemy:new()
-  table.insert(enemies, self)
-  return Object.new(self)
-end
+local enemies = {}
 
 function EnemyGenocide()
   for _, enemy in pairs(enemies) do
@@ -196,6 +191,7 @@ function respawn(self)
 end
 
 function Enemy:entry()
+  table.insert(enemies, self)
   return respawn(self)
 end
 

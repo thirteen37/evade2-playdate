@@ -58,7 +58,7 @@ end
 
 function AttractTypewriter()
   if playdate.buttonJustPressed(playdate.kButtonA) then
-    return MODE_GAME
+    return MODE_GET_READY
   end
   if playdate.buttonJustPressed(playdate.kButtonRight) then
     return next()

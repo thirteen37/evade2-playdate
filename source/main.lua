@@ -5,6 +5,7 @@ import "attract.lua"
 import "camera.lua"
 import "credits.lua"
 import "game.lua"
+import "game_over.lua"
 import "get_ready.lua"
 import "next_wave.lua"
 import "player.lua"
@@ -49,6 +50,7 @@ function playdate.update()
   elseif game_mode == MODE_NEXT_WAVE then
     new_game_mode = NextWaveRun()
   elseif game_mode == MODE_GAMEOVER then
+    new_game_mode = GameOverLoop()
   end
   if game_mode == MODE_GAME or game_mode == MODE_NEXT_WAVE then
     ObjectRun()
@@ -69,6 +71,7 @@ function playdate.update()
     elseif game_mode == MODE_NEXT_WAVE then
       NextWaveEntry()
     elseif game_mode == MODE_GAMEOVER then
+      GameOverEntry()
     end
   end
   gfx.animation.blinker.updateAll()

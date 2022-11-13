@@ -41,11 +41,13 @@ function Remove(t, o)
   ::continue::
   if index then
     table.remove(t, index)
+    return true
   end
+  return false
 end
 
 function Free(o)
-  Remove(objects, o)
+  return Remove(objects, o)
 end
 
 Object = {}

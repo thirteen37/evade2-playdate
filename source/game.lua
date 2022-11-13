@@ -4,7 +4,6 @@ import "font.lua"
 import "object.lua"
 import "player.lua"
 
-local enemies = {}
 local asteriods = {}
 local difficulty
 local kills
@@ -32,7 +31,6 @@ local function gameBirth()
   for i = 1, 3 do
     local enemy = Enemy:new()
     enemy:entry()
-    table.insert(enemies, enemy)
   end
   if wave > 3 then
     local num_asteroids = math.min(math.max(wave, 3), 1) + 1
@@ -44,6 +42,9 @@ local function gameBirth()
 
 function GameNext()
   Run()
+  if PlayerDead() then
+    return MODE_GAMEOVER
+  end
   -- if kills > 0 then  -- <<- Debug
   if kills > ((10 + wave) * difficulty) then
     BulletGenocide()
