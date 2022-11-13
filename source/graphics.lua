@@ -27,8 +27,8 @@ function ExplodeVectorGraphic(graphic, x, y, theta, scaleFactor, step)
     if step then
       x0 += (segx0 / 8) * step
       y0 += (segy0 / 8) * step
-      x1 += (segx1 / 8) * step
-      y1 += (segy1 / 8) * step
+      x1 += (segx0 / 8) * step
+      y1 += (segy0 / 8) * step
     end
     local ls = geo.lineSegment.new(
       x0 * cost - y0 * sint + x,

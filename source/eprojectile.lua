@@ -26,13 +26,12 @@ function EProjectile:run()
     -- TODO: is in game mode?
     Hit(10)
     Free(self)
-    return
+    Remove(projectiles, self)
   elseif self.x < CameraZ() then
     self.state -= 1
     if self.state <= 0 then
       Free(self)
       Remove(projectiles, self)
-      return
     end
   end
 end

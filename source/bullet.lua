@@ -11,6 +11,7 @@ Bullet = Object:new()
 function Bullet:fire(deltaX, deltaY, alt)
   if #bullets >= MAX_BULLETS then
     Free(self)
+    return
   end
   table.insert(bullets, self)
   PlaySound("player_shoot")
@@ -35,8 +36,17 @@ end
 
 function Bullet:run()
   Object.run(self)
-  -- TODO: collision
-  if self.z - CameraZ() > 512 then
+  if self.collision then
+    self.collision = false
+    self.explode = true
+    self.state = 0
+  elseif self.explode then
+    self.state += 1
+    if self.state > 20 then
+      Free(self)
+      Remove(bullets, self)
+    end
+  elseif self.z - CameraZ() > 512 then
     Free(self)
     Remove(bullets, self)
   else
@@ -49,4 +59,8 @@ function BulletGenocide()
     Free(bullet)
   end
   bullets = {}
+end
+
+function Bullet:collidable()
+  return true
 end

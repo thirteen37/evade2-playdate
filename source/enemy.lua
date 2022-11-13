@@ -18,6 +18,8 @@ local function initScout(self)
   self.vz = CAMERA_VZ - 12
   self.vy = 0
   self.vx = 0
+  self.w = 128
+  self.h = 38
   self.theta = math.random(-50, 50)
 end
 
@@ -26,6 +28,8 @@ local function initBomber(self)
   self.y = CameraY() + math.random(1, 128)
   self.z = CameraZ() - 30
   self.vz = CAMERA_VZ + 1 + GameWave()
+  self.w = 128
+  self.h = 55
   self.vx = 0
   self.vy = 0
 end
@@ -38,6 +42,8 @@ local function initAssault(self)
   self.vx = 0
   self.vy = 0
   self.vz = 0
+  self.w = 128
+  self.h = 46
   self.state = 0
 end
 
@@ -194,5 +200,9 @@ function Enemy:entry()
 end
 
 function Enemy:showsRadar()
+  return true
+end
+
+function Enemy:collidable()
   return true
 end

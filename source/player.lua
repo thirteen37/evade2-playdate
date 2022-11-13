@@ -164,6 +164,5 @@ function Hit(amount)
   else
     player_hit = true
     PlaySound("player_hit")
-    print("hit", shield)
   end
 end

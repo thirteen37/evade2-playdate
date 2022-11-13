@@ -8,7 +8,21 @@ function Run()
   for _, o in pairs(objects) do
     o:move()
     o:draw()
-    -- TODO: check collisions
+    if o:collidable() and o.w == 0 and o.h == 0 then
+      -- o is bullet?
+      for _, oo in pairs(objects) do
+        if o ~= oo and oo:collidable() and oo.w > 0 and oo.h > 0 then
+          -- oo is enemy
+          if math.abs(o.z - oo.z) < BULLET_VZ and
+            math.abs(o.x - oo.x) < oo.w and
+            math.abs(o.y - oo.y) < oo.h then
+            o.collision = true
+            oo.collision = true
+            break
+          end
+        end
+      end
+    end
   end
 end
 
@@ -48,6 +62,9 @@ function Object:new(o)
   o.vz = 0
   o.theta = 0
   o.lines = {}
+  o.w = 0
+  o.h = 0
+  o.collision = false
   o.explode = false
   o.state = 0
   Alloc(o)
@@ -61,6 +78,10 @@ function Object:move()
 end
 
 function Object:showsRadar()
+  return false
+end
+
+function Object:collidable()
   return false
 end
 

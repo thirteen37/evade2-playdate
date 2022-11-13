@@ -48,9 +48,11 @@ local function gameBirth()
 
 function GameNext()
   Run()
+  -- if kills > 0 then  -- <<- Debug
   if kills > ((10 + wave) * difficulty) then
     kills = 120
     CameraVZ(30)
+    BulletGenocide()
     return MODE_NEXT_WAVE
   end
 end
@@ -65,6 +67,7 @@ function GameEntry()
 end
 
 function GameKilled()
+  print("killed")
   kills += 1
 end
 
