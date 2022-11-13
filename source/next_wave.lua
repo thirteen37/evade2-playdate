@@ -1,19 +1,26 @@
-import "CoreLibs/animator"
+import "CoreLibs/timer"
 
+import "camera.lua"
 import "game.lua"
+import "player.lua"
 
 local gfx <const> = playdate.graphics
 
-local theta
+local continue = false
 
 function NextWaveEntry()
-  theta = gfx.animator.new(2166, 90, 870)
+  playdate.timer.performAfterDelay(4000, function() continue = true end)
   PlayScore("sounds/evade2_12_next_wave.mid")
+  CameraVX(0)
+  CameraVY(0)
+  CameraVZ(30)
 end
 
 function NextWaveRun()
-  FontPrintStringRotatedX(30, 35, theta:currentValue(), "GET READY!")
-  if theta:ended() then
+  FontPrintString(35, 5, "WARP TO ACE!", 190/256)
+  RechargeShield()
+  RechargePower()
+  if continue then
     return MODE_GAME
   end
 end

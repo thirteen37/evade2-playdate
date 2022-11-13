@@ -5,6 +5,7 @@ import "attract.lua"
 import "camera.lua"
 import "credits.lua"
 import "game.lua"
+import "get_ready.lua"
 import "next_wave.lua"
 import "player.lua"
 import "splash.lua"
@@ -18,9 +19,10 @@ playdate.display.setInverted(true)
 MODE_SPLASH    = 1
 MODE_ATTRACT   = 2
 MODE_CREDITS   = 3
-MODE_GAME      = 4
-MODE_NEXT_WAVE = 5
-MODE_GAMEOVER  = 6
+MODE_GET_READY = 4
+MODE_GAME      = 5
+MODE_NEXT_WAVE = 6
+MODE_GAMEOVER  = 7
 local game_mode = MODE_SPLASH
 SplashEntry()
 StarfieldInit()
@@ -28,7 +30,7 @@ StarfieldInit()
 function playdate.update()
   gfx.clear()
   CameraMove()
-  if game_mode == MODE_GAME or game_mode == MODE_NEXT_WAVE then
+  if game_mode == MODE_GAME then
     BeforeRender()
   end
   StarfieldRender()
@@ -40,6 +42,8 @@ function playdate.update()
     new_game_mode = AttractTypewriter()
   elseif game_mode == MODE_CREDITS then
     new_game_mode = CreditsTypewriter()
+  elseif game_mode == MODE_GET_READY then
+    new_game_mode = GetReadyRun()
   elseif game_mode == MODE_GAME then
     new_game_mode = GameNext()
   elseif game_mode == MODE_NEXT_WAVE then
@@ -48,8 +52,6 @@ function playdate.update()
   end
   if game_mode == MODE_GAME or game_mode == MODE_NEXT_WAVE then
     ObjectRun()
-  end
-  if game_mode == MODE_GAME then
     AfterRender()
   end
   game_mode = new_game_mode or game_mode
@@ -60,6 +62,8 @@ function playdate.update()
       AttractEntry()
     elseif game_mode == MODE_CREDITS then
       CreditsEntry()
+    elseif game_mode == MODE_GET_READY then
+      GetReadyEntry()
     elseif game_mode == MODE_GAME then
       GameEntry()
     elseif game_mode == MODE_NEXT_WAVE then

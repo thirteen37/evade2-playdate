@@ -15,10 +15,6 @@ function GameWave()
 end
 
 local function getStageSong()
-  EProjectileGenocide()
-  -- BulletGenocide()
-  EnemyGenocide()
-
   if wave % 5 == 0 then
     return "sounds/evade2_09_stage_5.mid"
   elseif wave % 4 == 0 then
@@ -50,8 +46,6 @@ function GameNext()
   Run()
   -- if kills > 0 then  -- <<- Debug
   if kills > ((10 + wave) * difficulty) then
-    kills = 120
-    CameraVZ(30)
     BulletGenocide()
     return MODE_NEXT_WAVE
   end
@@ -67,7 +61,6 @@ function GameEntry()
 end
 
 function GameKilled()
-  print("killed")
   kills += 1
 end
 
