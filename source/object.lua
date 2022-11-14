@@ -118,6 +118,7 @@ function Object:run()
 end
 
 function ObjectRun()
+  if not PlayerActive() then return end
   for _, o in pairs(objects) do
     o:run()
   end

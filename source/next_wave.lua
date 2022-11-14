@@ -9,6 +9,7 @@ local gfx <const> = playdate.graphics
 local continue = false
 
 function NextWaveEntry()
+  PlayerActive(false)
   playdate.timer.performAfterDelay(4000, function() continue = true end)
   PlayScore("sounds/evade2_12_next_wave.mid")
   CameraVX(0)

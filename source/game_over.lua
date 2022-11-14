@@ -18,6 +18,8 @@ function GameOverLoop()
 end
 
 function GameOverEntry()
+  PlayerActive(false)
+  PlayerHud(false)
   EProjectileGenocide()
   BulletGenocide()
   EnemyGenocide()

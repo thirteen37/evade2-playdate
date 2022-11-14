@@ -53,6 +53,8 @@ function GameNext()
 end
 
 function GameEntry()
+  PlayerActive(true)
+  PlayerHud(true)
   wave += 1
   if wave % 4 == 0 then
     difficulty += 1

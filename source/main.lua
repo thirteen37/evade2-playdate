@@ -33,9 +33,7 @@ StarfieldInit()
 function playdate.update()
   gfx.clear()
   CameraMove()
-  if game_mode == MODE_GAME then
-    BeforeRender()
-  end
+  BeforeRender()
   StarfieldRender()
   local prev_game_mode = game_mode
   local new_game_mode
@@ -56,10 +54,8 @@ function playdate.update()
   elseif game_mode == MODE_GAMEOVER then
     new_game_mode = GameOverLoop()
   end
-  if game_mode == MODE_GAME or game_mode == MODE_NEXT_WAVE then
-    ObjectRun()
-    AfterRender()
-  end
+  ObjectRun()
+  AfterRender()
   game_mode = new_game_mode or game_mode
   if prev_game_mode ~= game_mode then
     if game_mode == MODE_SPLASH then

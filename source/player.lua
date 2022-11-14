@@ -11,6 +11,8 @@ local shield = -1
 local power = -1
 local player_alt = false
 local player_hit = false
+local active = false
+local hud = false
 
 function PlayerInit()
   CameraVZ(CAMERA_VZ)
@@ -64,7 +66,7 @@ local function drawMeter(side, value, deltaXMeter, deltaYMeter)
 end
 
 function BeforeRender()
-  -- if not game mode
+  if not active then return end
   if playdate.buttonJustPressed(playdate.kButtonA) then
     local deltaX = 0
     local deltaY = 0
@@ -121,6 +123,7 @@ local hud_console = gfx.image.new("images/hud_console_img")
 -- local hud_top_right = gfx.image.new("images/hud_top_right")
 local hud_crosshairs = gfx.image.new("images/hud_crosshairs")
 function AfterRender()
+  if not hud then return end
   if player_hit then
     playdate.display.setInverted(false)
   else
@@ -159,9 +162,7 @@ end
 
 function Hit(amount)
   shield -= amount
-  if (shield <= 0) then
-    print("game over")
-  else
+  if shield > 0 then
     player_hit = true
     PlaySound("player_hit")
   end
@@ -169,4 +170,18 @@ end
 
 function PlayerDead()
   return shield <= 0
+end
+
+function PlayerActive(a)
+  if a ~= nil then
+    active = a
+  end
+  return active
+end
+
+function PlayerHud(h)
+  if h ~= nil then
+    hud = h
+  end
+  return hud
 end
