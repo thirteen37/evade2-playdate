@@ -69,7 +69,6 @@ function Object:new(o)
   o.collision = false
   o.explode = false
   o.state = 0
-  Alloc(o)
   return o
 end
 

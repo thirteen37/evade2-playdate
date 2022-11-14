@@ -8,6 +8,7 @@ local projectiles = {}
 EProjectile = Object:new()
 
 function EProjectile:fire(enemy)
+  Alloc(self)
   table.insert(projectiles, self)
   local frames = 90 / GameDifficulty()
   self.state = 256

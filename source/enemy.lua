@@ -191,6 +191,7 @@ function respawn(self)
 end
 
 function Enemy:entry()
+  Alloc(self)
   table.insert(enemies, self)
   return respawn(self)
 end

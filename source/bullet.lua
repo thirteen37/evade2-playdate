@@ -9,6 +9,7 @@ local bullets = {}
 Bullet = Object:new()
 
 function Bullet:fire(deltaX, deltaY, alt)
+  Alloc(self)
   if #bullets >= MAX_BULLETS then
     Free(self)
     return
