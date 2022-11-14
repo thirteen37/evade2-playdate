@@ -2,6 +2,7 @@ import "CoreLibs/animation"
 import "CoreLibs/timer"
 
 import "attract.lua"
+import "boss.lua"
 import "camera.lua"
 import "credits.lua"
 import "game.lua"
@@ -23,7 +24,8 @@ MODE_CREDITS   = 3
 MODE_GET_READY = 4
 MODE_GAME      = 5
 MODE_NEXT_WAVE = 6
-MODE_GAMEOVER  = 7
+MODE_BOSS      = 7
+MODE_GAMEOVER  = 8
 local game_mode = MODE_SPLASH
 SplashEntry()
 StarfieldInit()
@@ -49,6 +51,8 @@ function playdate.update()
     new_game_mode = GameNext()
   elseif game_mode == MODE_NEXT_WAVE then
     new_game_mode = NextWaveRun()
+  elseif game_mode == MODE_BOSS then
+    new_game_mode = BossWait()
   elseif game_mode == MODE_GAMEOVER then
     new_game_mode = GameOverLoop()
   end
@@ -70,6 +74,8 @@ function playdate.update()
       GameEntry()
     elseif game_mode == MODE_NEXT_WAVE then
       NextWaveEntry()
+    elseif game_mode == MODE_BOSS then
+      BossEntry()
     elseif game_mode == MODE_GAMEOVER then
       GameOverEntry()
     end
