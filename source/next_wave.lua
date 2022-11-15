@@ -22,6 +22,6 @@ function NextWaveRun()
   RechargeShield()
   RechargePower()
   if continue then
-    return MODE_GAME
+    return MODE_BOSS
   end
 end
