@@ -113,8 +113,8 @@ function Boss1:engage_player_random_xy()
   end
   self.timer -= 1
   if self.timer > 0 then return end
-  local eBullet = EBullet:new()
-  eBullet:fire(self)
+  local eBomb = EBomb:new()
+  eBomb:fire(self)
   self.timer = GameWave() > 20 and 10 or (40 - difficulty)
   if self.x - CameraX() < -300 then
     self.vx = math.random(3, 10 + difficulty)
