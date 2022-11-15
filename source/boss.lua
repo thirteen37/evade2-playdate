@@ -26,6 +26,14 @@ function Boss:hit()
   end
 end
 
+function Boss:showsRadar()
+  return true
+end
+
+function Boss:collidable()
+  return true
+end
+
 Boss1 = Boss:new()
 Boss2 = Boss:new()
 Boss3 = Boss:new()
@@ -36,19 +44,24 @@ function Boss1:init()
   self.vx = -10
   self.y = CameraY()
   self.lines = {
-    { -18, -27, -64, 18 },
-    { -64, 18, -46, 37 },
-    { -46, 37, -27, 18 },
-    { 18, -27, 64, 18 },
-    { 64, 18, 46, 37 },
-    { 46, 37, 27, 18 },
-    { -55, 18, 0, -37 },
-    { 0, -37, 55, 18 },
-    { -27, 9, 0, 37 },
-    { 0, 37, 27, 9 },
+    { -21, -27, 21, 16 },
+    { -21, 16, 21, -27 },
+    { 21, -16, 11, -5 },
+    { 11, -5, 21, 5 },
+    { -21, 5, -11, -5 },
+    { -11, -5, -21, -16 },
+    { -11, 27, -32, 5 },
+    { -32, 5, -21, -5 },
+    { 11, 27, 32, 5 },
+    { 32, 5, 21, -5 },
+    { -21, -16, -64, -16 },
+    { 21, -16, 64, -16 },
+    { -11, 5, 0, 16 },
+    { 0, 16, 11, 5 }
   }
+  self.lines_orig = self.lines
   self.w = 128
-  self.h = 74
+  self.h = 54
   PlayScore("sounds/evade2_02_stage1_boss.mid")
   self.run = Boss1.start_action
 end
@@ -66,42 +79,53 @@ function Boss1:action()
     if self.hit_points <= 2 then
       self.state = 0
       self.vz = CameraVZ() - 3
-      self.run = self.explode
+      self.run = self.exploding
       return
     end
     self.lines = {}  -- hide
     self.state = self.state == 1 and 0 or 1
   else
-    self.lines = {} -- show
+    self.lines = self.lines_orig  -- show
     self:engage_player_random_xy()
   end
 end
 
+function Boss1:exploding()
+  self.explode = true
+  self.state += 1
+  EProjectileGenocide()
+  if self.state > 58 then
+    CameraVZ(CAMERA_VZ)
+    return MODE_NEXT_WAVE
+  end
+end
+
 function Boss1:engage_player_random_xy()
+  local difficulty = GameDifficulty()
   self.z = CameraZ() + Z_DIST - 10
   if self.state == 1 then
-    self.theta += 5 + GameDifficulty()
+    self.theta += 5 + difficulty
   else
-    self.theta -= 5 + GameDifficulty()
+    self.theta -= 5 + difficulty
   end
   self.timer -= 1
   if self.timer > 0 then return end
   local eBullet = EBullet:new()
   eBullet:fire(self)
-  self.timer = GameWave() > 20 and 10 or (40 - GameDifficulty())
+  self.timer = GameWave() > 20 and 10 or (40 - difficulty)
   if self.x - CameraX() < -300 then
-    self.vx = math.random(3, 10 + GameDifficulty())
+    self.vx = math.random(3, 10 + difficulty)
   elseif self.x - CameraX() > 300 then
-    self.vx = math.random(-3, -10 - GameDifficulty())
+    self.vx = math.random(-10 - difficulty, -3)
   else
-    self.vx = math.random(-10 - GameDifficulty(), 10 + GameDifficulty())
+    self.vx = math.random(-10 - difficulty, 10 + difficulty)
   end
   if self.y - CameraY() < -300 then
-    self.vy = math.random(3, 10 + GameDifficulty())
+    self.vy = math.random(3, 10 + difficulty)
   elseif self.x - CameraY() > 300 then
-    self.vy = math.random(-3, -10 - GameDifficulty())
+    self.vy = math.random(-10 - difficulty, -3)
   else
-    self.vy = math.random(-10 - GameDifficulty(), 10 + GameDifficulty())
+    self.vy = math.random(-10 - difficulty, 10 + difficulty)
   end
 end
 
@@ -138,30 +162,32 @@ function Boss3:init()
   self.vx = 10
   self.vy = math.random(-3, 3)
   self.lines = {
-    { -21, -27, 21, 16 },
-    { -21, 16, 21, -27 },
-    { 21, -16, 11, -5 },
-    { 11, -5, 21, 5 },
-    { -21, 5, -11, -5 },
-    { -11, -5, -21, -16 },
-    { -11, 27, -32, 5 },
-    { -32, 5, -21, -5 },
-    { 11, 27, 32, 5 },
-    { 32, 5, 21, -5 },
-    { -21, -16, -64, -16 },
-    { 21, -16, 64, -16 },
-    { -11, 5, 0, 16 },
-    { 0, 16, 11, 5 }
+    { -18, -27, -64, 18 },
+    { -64, 18, -46, 37 },
+    { -46, 37, -27, 18 },
+    { 18, -27, 64, 18 },
+    { 64, 18, 46, 37 },
+    { 46, 37, 27, 18 },
+    { -55, 18, 0, -37 },
+    { 0, -37, 55, 18 },
+    { -27, 9, 0, 37 },
+    { 0, 37, 27, 9 },
   }
   self.w = 128
-  self.h = 54
+  self.h = 74
   PlayScore("sounds/evade2_06_stage_3_boss.mid")
   self.run = Boss3.start_action
 end
 
+local boss
+
 function BossWait()
+  Run()
+  if PlayerDead() then
+    return MODE_GAMEOVER
+  end
   if boss.explode and boss.state > 58 then
-    return MODE_NEXT_WAVE
+    return MODE_NEXT_WAVE -- end?
   end
 end
 
