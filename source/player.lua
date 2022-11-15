@@ -88,7 +88,7 @@ function BeforeRender()
   end
   if playdate.buttonIsPressed(playdate.kButtonB) then
     if power > 0 then
-      CameraVZ(CameraVZ() * 2)
+      CameraVZ(CAMERA_VZ * 2)
       power -= 1
     else
       CameraVZ(CAMERA_VZ)
