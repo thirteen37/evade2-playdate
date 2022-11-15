@@ -6,10 +6,11 @@ import "player.lua"
 
 local gfx <const> = playdate.graphics
 
-local continue = false
+local continue
 
 function NextWaveEntry()
   PlayerActive(false)
+  continue = false
   playdate.timer.performAfterDelay(4000, function() continue = true end)
   PlayScore("sounds/evade2_12_next_wave.mid")
   CameraVX(0)

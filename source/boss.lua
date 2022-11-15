@@ -34,6 +34,8 @@ function Boss:collidable()
   return true
 end
 
+local boss
+
 Boss1 = Boss:new()
 Boss2 = Boss:new()
 Boss3 = Boss:new()
@@ -79,6 +81,8 @@ function Boss1:action()
     if self.hit_points <= 2 then
       self.state = 0
       self.vz = CameraVZ() - 3
+      EProjectileGenocide()
+      self.explode = true
       self.run = self.exploding
       return
     end
@@ -91,10 +95,9 @@ function Boss1:action()
 end
 
 function Boss1:exploding()
-  self.explode = true
   self.state += 1
-  EProjectileGenocide()
   if self.state > 58 then
+    Free(boss)
     CameraVZ(CAMERA_VZ)
     return MODE_NEXT_WAVE
   end
@@ -178,8 +181,6 @@ function Boss3:init()
   PlayScore("sounds/evade2_06_stage_3_boss.mid")
   self.run = Boss3.start_action
 end
-
-local boss
 
 function BossWait()
   Run()
