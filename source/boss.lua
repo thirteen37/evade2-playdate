@@ -29,6 +29,15 @@ function Boss:hit()
   end
 end
 
+function Boss:exploding()
+  self.state += 1
+  if self.state > 58 then
+    Free(boss)
+    CameraVZ(CAMERA_VZ)
+    return MODE_NEXT_WAVE
+  end
+end
+
 local boss
 
 Boss1 = Boss:new()
@@ -89,15 +98,6 @@ function Boss1:action()
   end
 end
 
-function Boss1:exploding()
-  self.state += 1
-  if self.state > 58 then
-    Free(boss)
-    CameraVZ(CAMERA_VZ)
-    return MODE_NEXT_WAVE
-  end
-end
-
 function Boss1:engage_player_random_xy()
   local difficulty = GameDifficulty()
   self.z = CameraZ() + Z_DIST - 10
@@ -110,7 +110,7 @@ function Boss1:engage_player_random_xy()
   if self.timer > 0 then return end
   local eBomb = EBomb:new()
   eBomb:fire(self)
-  self.timer = GameWave() > 20 and 10 or (40 - difficulty)
+  self.timer = GameWave() > 20 and 10 or (50 - difficulty)
   if self.x - CameraX() < -300 then
     self.vx = math.random(3, 10 + difficulty)
   elseif self.x - CameraX() > 300 then
@@ -129,7 +129,7 @@ end
 
 function Boss2:init()
   Boss.init(self, 2)
-  self:initOrbit(math.random(0, 1))
+  self:init_orbit(math.random(0, 1))
   self.lines = {
     { -55, -37, -9, 9 },
     { -64, 9, -37, -18 },
@@ -140,16 +140,80 @@ function Boss2:init()
     { 64, 9, 37, -18 },
     { 55, 37, 9, -9 },
   }
+  self.lines_orig = self.lines
   self.w = 128
   self.h = 73
+  self.orbit_left = false
   PlayScore("sounds/evade2_02_stage2-boss.mid")
+  self.timer = GameWave() > 20 and 20 or (50 - GameDifficulty())
   self.run = Boss2.start_action
 end
 
+function Boss2:init_orbit(left)
+  local angle = left and 0 or (2 * math.pi)
+  self.x = math.cos(angle) * 256
+  self.z = CameraZ() + math.sin(angle) * 256
+  self.y = CameraY() + math.random(30, 90)
+  self.vy = math.random(-6 - GameDifficulty(), 6 + GameDifficulty())
+  self.vx = 0
+  self.vz = -50 - GameDifficulty() * 2
+  self.state = left and 0 or 180
+end
+
 function Boss2:start_action()
-  self.timer += 1
+  self.timer -= 1
   if self.timer > 0 then
+    PlayerActive(true)
     self.run = Boss2.action
+  end
+end
+
+function Boss2:action()
+  if self:hit() then
+    if self.hit_points <= 2 then
+      self.state = 0
+      self.vz = CameraVZ() - 3
+      EProjectileGenocide()
+      self.explode = true
+      self.run = self.exploding
+      return
+    end
+    self.lines = {}  -- hide
+  else
+    self.lines = self.lines_orig  -- show
+    self:engage_player_orbit()
+  end
+end
+
+function Boss2:engage_player_orbit()
+  local difficulty = GameDifficulty()
+  if self.orbit_left then
+    self.state -= difficulty
+    if self.state < 0 then
+      self.y = CameraY() + math.random(-150, 150)
+      self.state = 0
+      self.orbit_left = false
+    else
+      self.theta -= 12
+    end
+  else
+    self.state += difficulty
+    if self.state > 180 then
+      self.y = CameraY() + math.random(-150, 150)
+      self.state = 180
+      self.orbit_left = true
+    else
+      self.theta += 12
+    end
+  end
+  local rad = math.rad(self.state)
+  self.x = math.cos(rad) * 512
+  self.z = CameraZ() + math.sin(rad) * 512
+  self.timer -= 1
+  if self.timer <= 0 then
+    self.timer = GameWave() > 20 and 20 or (50 - difficulty)
+    local bomb = EBomb:new()
+    bomb:fire(self)
   end
 end
 
