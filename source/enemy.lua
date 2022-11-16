@@ -45,6 +45,7 @@ local function initAssault(self)
   self.w = 128
   self.h = 46
   self.state = 0
+  self.orbit_left = false
 end
 
 local function behindCamera(self)
@@ -100,11 +101,10 @@ end
 
 local respawn
 
-EXPLODE_FRAMES = 58
 local function explode(self)
   self.explode = true
   self.state += 1
-  if behindCamera(self) or self.state > EXPLODE_FRAMES then
+  if behindCamera(self) or self.state > 58 then
     respawn(self)
   end
   self.movement = explode
@@ -142,6 +142,52 @@ local function seek(self)
     self.state = -1
     self.movement = runAway
     return
+  end
+end
+
+local function evade(self)
+  if self.z - CameraZ() > 512 then
+    self.state = 1
+    self.movement = runAway
+    return
+  end
+  if death(self) then
+    self.movement = explode
+    return
+  end
+  bank(self, 15)
+  fire(self)
+end
+
+local function orbit(self)
+  if death(self) then
+    self.movement = explode
+    return
+  end
+  fire(self)
+  if self.orbit_left then
+    self.state -= GameDifficulty()
+    if seld.state < 0 then
+      self.state = 0
+      self.orbit_left = false
+    else
+      self.theta -= 12
+    end
+  else
+    self.state += GameDifficulty()
+    if self.state > 180 then
+      self.state = 180
+      self.orbit_left = true
+    else
+      self.theta += 12
+    end
+  end
+  local rad = math.rad(self.state)
+  self.vy = (CameraY() > self.y) and -2 or 2
+  self.y = CameraY()
+  self.x = math.cos(rad) * 256
+  if PlayerActive() then
+    self.z = CameraZ() + math.sin(rad) * 256
   end
 end
 
