@@ -49,7 +49,7 @@ function GameNext()
   if kills > ((10 + wave) * difficulty) then
     BulletGenocide()
     EnemyGenocide()
-    return MODE_NEXT_WAVE
+    return MODE_WARP
   end
 end
 

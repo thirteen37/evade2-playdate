@@ -12,6 +12,7 @@ import "next_wave.lua"
 import "player.lua"
 import "splash.lua"
 import "starfield.lua"
+import "warp.lua"
 
 local gfx <const> = playdate.graphics
 
@@ -23,9 +24,10 @@ MODE_ATTRACT   = 2
 MODE_CREDITS   = 3
 MODE_GET_READY = 4
 MODE_GAME      = 5
-MODE_NEXT_WAVE = 6
+MODE_WARP      = 6
 MODE_BOSS      = 7
-MODE_GAMEOVER  = 8
+MODE_NEXT_WAVE = 8
+MODE_GAMEOVER  = 9
 local game_mode = MODE_SPLASH
 SplashEntry()
 StarfieldInit()
@@ -47,10 +49,12 @@ function playdate.update()
     new_game_mode = GetReadyRun()
   elseif game_mode == MODE_GAME then
     new_game_mode = GameNext()
-  elseif game_mode == MODE_NEXT_WAVE then
-    new_game_mode = NextWaveRun()
+  elseif game_mode == MODE_WARP then
+    new_game_mode = WarpNext()
   elseif game_mode == MODE_BOSS then
     new_game_mode = BossWait()
+  elseif game_mode == MODE_NEXT_WAVE then
+    new_game_mode = NextWaveRun()
   elseif game_mode == MODE_GAMEOVER then
     new_game_mode = GameOverLoop()
   end
@@ -68,10 +72,12 @@ function playdate.update()
       GetReadyEntry()
     elseif game_mode == MODE_GAME then
       GameEntry()
-    elseif game_mode == MODE_NEXT_WAVE then
-      NextWaveEntry()
+    elseif game_mode == MODE_WARP then
+      WarpEntry()
     elseif game_mode == MODE_BOSS then
       BossEntry()
+    elseif game_mode == MODE_NEXT_WAVE then
+      NextWaveEntry()
     elseif game_mode == MODE_GAMEOVER then
       GameOverEntry()
     end

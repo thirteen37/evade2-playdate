@@ -11,18 +11,16 @@ local continue
 function NextWaveEntry()
   PlayerActive(false)
   continue = false
-  playdate.timer.performAfterDelay(4000, function() continue = true end)
+  playdate.timer.performAfterDelay(2167, function() continue = true end)
   PlayScore("sounds/evade2_12_next_wave.mid")
-  CameraVX(0)
-  CameraVY(0)
-  CameraVZ(30)
+  CameraVZ(CAMERA_VZ)
 end
 
 function NextWaveRun()
-  FontPrintString(35, 5, "WARP TO ACE!", 190/256)
+  FontPrintString(26, 5, "NEXT WAVE " .. (GameWave() + 1), 200/256)
   RechargeShield()
   RechargePower()
   if continue then
-    return MODE_BOSS
+    return MODE_GAME
   end
 end
