@@ -8,6 +8,8 @@ Boss = Object:new()
 
 function Boss:init(type)
   Alloc(self)
+  self.showsRadar = true
+  self.collidable = true
   self.z = CameraZ() + Z_DIST
   self.state = 0
   self.vz = CameraVZ()
@@ -25,14 +27,6 @@ function Boss:hit()
   else
     return false
   end
-end
-
-function Boss:showsRadar()
-  return true
-end
-
-function Boss:collidable()
-  return true
 end
 
 local boss

@@ -238,14 +238,8 @@ end
 
 function Enemy:entry()
   Alloc(self)
+  self.showsRadar = true
+  self.collidable = true
   table.insert(enemies, self)
   return respawn(self)
-end
-
-function Enemy:showsRadar()
-  return true
-end
-
-function Enemy:collidable()
-  return true
 end

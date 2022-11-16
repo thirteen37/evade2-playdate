@@ -8,10 +8,10 @@ function Run()
   for _, o in pairs(objects) do
     o:move()
     o:draw()
-    if o:collidable() and o.w == 0 and o.h == 0 then
+    if o.collidable and o.w == 0 and o.h == 0 then
       -- o is bullet?
       for _, oo in pairs(objects) do
-        if o ~= oo and oo:collidable() and oo.w > 0 and oo.h > 0 then
+        if o ~= oo and oo.collidable and oo.w > 0 and oo.h > 0 then
           -- oo is enemy
           if math.abs(o.z - oo.z) < BULLET_VZ and
             math.abs(o.x - oo.x) < oo.w and
@@ -69,6 +69,8 @@ function Object:new(o)
   o.collision = false
   o.explode = false
   o.state = 0
+  o.showsRadar = false
+  o.collidable = false
   return o
 end
 
@@ -76,14 +78,6 @@ function Object:move()
   self.x += self.vx
   self.y += self.vy
   self.z += self.vz
-end
-
-function Object:showsRadar()
-  return false
-end
-
-function Object:collidable()
-  return false
 end
 
 function Object:draw()
@@ -95,7 +89,7 @@ function Object:draw()
   if self.explode then
     ExplodeVectorGraphic(self.lines, cx, cy, self.theta, 1 / ratio, self.state)
   else
-    if not DrawVectorGraphic(self.lines, cx, cy, self.theta, 1 / ratio) and self:showsRadar() then
+    if not DrawVectorGraphic(self.lines, cx, cy, self.theta, 1 / ratio) and self.showsRadar then
       local dx = CameraX() - self.x
       local dy = CameraY() - self.y
       local angle = math.atan(dy, dx)

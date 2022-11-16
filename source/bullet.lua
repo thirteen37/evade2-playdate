@@ -10,6 +10,7 @@ Bullet = Object:new()
 
 function Bullet:fire(deltaX, deltaY, alt)
   Alloc(self)
+  self.collidable = true
   if #bullets >= MAX_BULLETS then
     Free(self)
     return
@@ -60,8 +61,4 @@ function BulletGenocide()
     Free(bullet)
   end
   bullets = {}
-end
-
-function Bullet:collidable()
-  return true
 end
