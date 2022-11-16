@@ -12,6 +12,7 @@ function Boss:init(type)
   self.state = 0
   self.vz = CameraVZ()
   self.type = type
+  -- self.hit_points = 1  -- <<- debug
   self.hit_points = 20 + (GameDifficulty() * type)
   self.timer = 0
 end
