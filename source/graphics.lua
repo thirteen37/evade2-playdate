@@ -1,9 +1,10 @@
-SCREEN_WIDTH, SCREEN_HEIGHT = 128, 64
-
 local geo <const> = playdate.geometry
 local gfx <const> = playdate.graphics
 
+SCREEN_WIDTH, SCREEN_HEIGHT = playdate.display.getSize()
 SCREEN_RECT = geo.rect.new(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+Z_SCALE = 1
+LINE_WIDTH = 4
 
 function DrawVectorGraphic(graphic, x, y, theta, scaleFactor)
   return ExplodeVectorGraphic(graphic, x, y, theta, scaleFactor, nil)
@@ -15,6 +16,9 @@ function ExplodeVectorGraphic(graphic, x, y, theta, scaleFactor, step)
   local cost = math.cos(rad)
   local drawn = false
 
+  if scaleFactor then
+    gfx.setLineWidth(math.floor(LINE_WIDTH / scaleFactor))
+  end
   for _, l in pairs(graphic) do
     local segx0, segy0, segx1, segy1 = table.unpack(l)
     local x0, y0, x1, y1 = segx0, segy0, segx1, segy1
@@ -46,5 +50,6 @@ function ExplodeVectorGraphic(graphic, x, y, theta, scaleFactor, step)
       drawn = endpointInScreen or ls:intersectsRect(SCREEN_RECT)
     end
   end
+  gfx.setLineWidth(1)
   return drawn
 end

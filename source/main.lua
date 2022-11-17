@@ -16,7 +16,6 @@ import "warp.lua"
 
 local gfx <const> = playdate.graphics
 
-playdate.display.setScale(2)
 playdate.display.setInverted(true)
 
 MODE_SPLASH    = 1

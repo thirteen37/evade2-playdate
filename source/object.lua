@@ -1,7 +1,5 @@
 import "camera.lua"
 
-SCREEN_WIDTH, SCREEN_HEIGHT = 128, 64
-
 local objects = {}
 
 function Run()
@@ -82,7 +80,7 @@ end
 
 function Object:draw()
   if #self.lines == 0 or self.z <= CameraZ() then return end
-  local zz = (self.z - CameraZ()) * 2
+  local zz = (self.z - CameraZ()) * Z_SCALE
   local ratio = 128 / (zz + 128)
   local cx = (CameraX() - self.x) * ratio + SCREEN_WIDTH / 2
   local cy = (CameraY() - self.y) * ratio + SCREEN_HEIGHT / 2

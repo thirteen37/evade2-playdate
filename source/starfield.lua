@@ -6,8 +6,7 @@ local starX = {}
 local starY = {}
 local starZ = {}
 
-NUM_STARS = 5
-SCREEN_WIDTH, SCREEN_HEIGHT = 128, 64
+NUM_STARS = 40
 
 local function initStar(i)
   starX[i] = math.random(-256, 256) + CameraX()
@@ -27,10 +26,10 @@ function StarfieldRender()
   local cz = CameraZ()
 
   for i = 1, NUM_STARS do
-	local zz = (starZ[i] - cz) * 2
+	local zz = (starZ[i] - cz) * Z_SCALE
     if (zz < 0) then
       initStar(i)
-      zz = (starZ[i] - cz) * 2
+      zz = (starZ[i] - cz) * Z_SCALE
     end
     local ratioX = SCREEN_WIDTH / (zz + SCREEN_WIDTH)
     local ratioY = SCREEN_HEIGHT / (zz + SCREEN_HEIGHT)
