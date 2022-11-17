@@ -28,26 +28,28 @@ RAW_SOUNDS = {
   ["player_shoot"]={
     tempo=22,
     notes={
-      {step=1, note="E5", length=11, volume=110/128},
-    }
+      {step=1, note="E5", length=11, velocity=110/128},
+    },
+    freq_mod=true
   },
   ["enemy_shoot"]={
     tempo=22,
     notes={
-      {step=1, note="E4", length=11, volume=110/128},
-    }
+      {step=1, note="E4", length=11, velocity=110/128},
+    },
+    freq_mod=true
   },
   ["player_hit"]={
     tempo=1,
     notes={
-      {step=1, note="F3", length=2, volume=128/128},
-      {step=3, note="F2", length=2, volume=128/128},
+      {step=1, note="F3", length=2, velocity=128/128},
+      {step=3, note="F2", length=2, velocity=128/128},
     }
   },
   ["next_attract_screen"]={
     tempo=1,
     notes={
-      {step=0, note="C5", length=1, volume=80/128},
+      {step=0, note="C5", length=1, velocity=80/128},
       {step=1, note="E5", length=2, velocity=80/128},
     }
   },
@@ -66,10 +68,18 @@ for name, sfx in pairs(RAW_SOUNDS) do
   sfxChannel:addSource(sfxInstrument)
   local sfxTrack = snd.track.new()
   sfxTrack:setNotes(sfx.notes)
-  sfxTrack:setInstrument(sfx.instrument or sfxInstrument)
+  sfxTrack:setInstrument(sfxInstrument)
   local sfxSequence = snd.sequence.new()
   sfxSequence:setTempo(sfx.tempo >= 8 and sfx.tempo or 8)
   sfxSequence:addTrack(sfxTrack)
+  if sfx.freq_mod then
+    local duration = sfxSequence:getLength() / sfxSequence:getTempo()
+    local envelope = snd.envelope.new(duration, 0, 0, 0)
+    envelope:setScale(1)
+    envelope:setRetrigger(true)
+    envelope:setOffset(1)
+    sfxSynth:setFrequencyMod(envelope)
+  end
   SOUNDS[name] = sfxSequence
 end
 
