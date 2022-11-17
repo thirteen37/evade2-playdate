@@ -235,10 +235,71 @@ function Boss3:init()
     { -27, 9, 0, 37 },
     { 0, 37, 27, 9 },
   }
+  self.lines_orig = self.lines
   self.w = 128
   self.h = 74
+  self.orbit_left = false
   PlayScore("sounds/evade2_06_stage_3_boss.mid")
   self.run = Boss3.start_action
+end
+
+function Boss3:start_action()
+  self.y = CameraY()
+  self.z = CameraZ() + Z_DIST
+  if self.x > CameraX() then
+    self.run = Boss3.action
+  end
+end
+
+function Boss3:action()
+  if self:hit() then
+    if self.hit_points <= 2 then
+      self.state = 0
+      self.vz = CameraVZ() - 3
+      EProjectileGenocide()
+      self.explode = true
+      self.run = self.exploding
+      return
+    end
+    self.lines = {}  -- hide
+  else
+    self.lines = self.lines_orig  -- show
+    self:engage_player_flee()
+  end
+end
+
+function Boss3:engage_player_flee()
+  if self.orbit_left then
+    self.state -= GameDifficulty()
+    if self.state < 0 then
+      self.state = 0
+      self:randomize_flee()
+      self.orbit_left = false
+    end
+  else
+    self.state += GameDifficulty()
+    if self.state > 90 then
+      self.state = 90
+      self:randomize_flee()
+      self.orbit_left = true
+    end
+  end
+  self.timer -= 1
+  if self.timer > 0 then return end
+  local bomb = EBomb:new()
+  bomb:fire(self)
+  self.timer = GameWave() > 20 and 20 or (50 - GameDifficulty())
+  self.vx += math.random(-7, 7)
+  self.vy += math.random(-7, 7)
+end
+
+function Boss3:randomize_flee()
+  self.y = CameraY() + math.random(-150, 150)
+  self.vy = math.random(-7, 7)
+  self.vx = math.random(-7, 7)
+  self.z = CameraZ() - 50
+  self.vz = CameraVZ() + math.random(1, 7) * GameDifficulty()
+  self.theta = math.random(-180, 180)
 end
 
 function BossWait()

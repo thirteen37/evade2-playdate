@@ -167,7 +167,7 @@ local function orbit(self)
   fire(self)
   if self.orbit_left then
     self.state -= GameDifficulty()
-    if seld.state < 0 then
+    if self.state < 0 then
       self.state = 0
       self.orbit_left = false
     else
