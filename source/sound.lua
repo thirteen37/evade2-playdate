@@ -30,14 +30,14 @@ RAW_SOUNDS = {
     notes={
       {step=1, note="E5", length=11, velocity=110/128},
     },
-    freq_mod=true
+    freq_mod=-1
   },
   ["enemy_shoot"]={
     tempo=22,
     notes={
       {step=1, note="E4", length=11, velocity=110/128},
     },
-    freq_mod=true
+    freq_mod=1
   },
   ["player_hit"]={
     tempo=1,
@@ -75,7 +75,7 @@ for name, sfx in pairs(RAW_SOUNDS) do
   if sfx.freq_mod then
     local duration = sfxSequence:getLength() / sfxSequence:getTempo()
     local envelope = snd.envelope.new(duration, 0, 0, 0)
-    envelope:setScale(1)
+    envelope:setScale(sfx.freq_mod)
     envelope:setRetrigger(true)
     envelope:setOffset(1)
     sfxSynth:setFrequencyMod(envelope)
