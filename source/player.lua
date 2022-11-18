@@ -1,3 +1,5 @@
+import "CoreLibs/graphics"
+
 import "bullet.lua"
 import "camera.lua"
 
@@ -36,31 +38,35 @@ function RechargePower()
 end
 
 local function drawMeter(side, value, deltaXMeter, deltaYMeter)
-  local y = 45
-  value //= 10
+  local y = 190
+  value //= 5
   if side == 0 then
     -- left
-    for i = 1, 9 do
+    for i = 1, 19 do
       if i >= value then
-        gfx.drawPixel(1 + deltaXMeter, y + deltaYMeter)
-        gfx.drawPixel(1 + deltaXMeter, y + 1 + deltaYMeter)
+        gfx.fillRect(4 + deltaXMeter, y + deltaYMeter, 4, 4)
       else
-        gfx.drawLine(1 + deltaXMeter, y + deltaYMeter, 3 + deltaXMeter, y + deltaYMeter)
-        gfx.drawLine(1 + deltaXMeter, y + 1 + deltaYMeter, 4 + deltaXMeter, y + 1 + deltaYMeter)
+        gfx.fillPolygon(4 + deltaXMeter, y + deltaYMeter,
+                        4 + deltaXMeter, y + deltaYMeter + 4,
+                        4 + deltaXMeter + 10, y + deltaYMeter + 4,
+                        4 + deltaXMeter + 6, y + deltaYMeter,
+                        4 + deltaXMeter, y + deltaYMeter)
       end
-      y -= 3
+      y -= 8
     end
   else
     -- right
-    for i = 1, 9 do
+    for i = 1, 19 do
       if i >= value then
-        gfx.drawPixel(126 + deltaXMeter, y + deltaYMeter)
-        gfx.drawPixel(126 + deltaXMeter, y + 1 + deltaYMeter)
+        gfx.fillRect(SCREEN_WIDTH - 4 + deltaXMeter, y + deltaYMeter, -4, 4)
       else
-        gfx.drawLine(124 + deltaXMeter, y + deltaYMeter, 126 + deltaXMeter, y + deltaYMeter)
-        gfx.drawLine(123 + deltaXMeter, y + 1 + deltaYMeter, 126 + deltaXMeter, y + 1 + deltaYMeter)
+        gfx.fillPolygon(SCREEN_WIDTH - 4 + deltaXMeter, y + deltaYMeter,
+                        SCREEN_WIDTH - 4 + deltaXMeter, y + deltaYMeter + 4,
+                        SCREEN_WIDTH - 4 + deltaXMeter - 10, y + deltaYMeter + 4,
+                        SCREEN_WIDTH - 4 + deltaXMeter - 6, y + deltaYMeter,
+                        SCREEN_WIDTH - 4 + deltaXMeter, y + deltaYMeter)
       end
-      y -= 3
+      y -= 8
     end
   end
 end
@@ -130,32 +136,32 @@ function AfterRender()
     playdate.display.setInverted(true)
   end
   player_hit = false
-  local consoleX = 40
-  local consoleY = 58
+  local consoleX = 200
+  local consoleY = 232
   deltaXMeter = 0
   deltaYMeter = 0
   deltaXCrossHairs = 0
   deltaYCrossHairs = 0
   if playdate.buttonIsPressed(playdate.kButtonRight) then
-    consoleX = 38
-    deltaXMeter = -1
-    deltaXCrossHairs = 4
+    consoleX -= 6
+    deltaXMeter = -3
+    deltaXCrossHairs = 8
   elseif playdate.buttonIsPressed(playdate.kButtonLeft) then
-    consoleX = 42
-    deltaXMeter = 1
-    deltaXCrossHairs = -4
+    consoleX += 6
+    deltaXMeter = 3
+    deltaXCrossHairs = -8
   end
   if playdate.buttonIsPressed(playdate.kButtonUp) then
-    consoleY = 56
-    deltaYMeter = -1
-    deltaYCrossHairs = 4
+    consoleY -= 6
+    deltaYMeter = -3
+    deltaYCrossHairs = 8
   elseif playdate.buttonIsPressed(playdate.kButtonDown) then
-    consoleY = 60
-    deltaYMeter = 1
-    deltaYCrossHairs = -4
+    consoleY += 6
+    deltaYMeter = 3
+    deltaYCrossHairs = -8
   end
-  hud_console:draw(consoleX, consoleY)
-  hud_crosshairs:draw(53 + deltaXCrossHairs, 30 + deltaYCrossHairs)
+  hud_console:drawCentered(consoleX, consoleY)
+  hud_crosshairs:drawCentered(200 + deltaXCrossHairs, 120 + deltaYCrossHairs)
   drawMeter(0, shield, deltaXMeter, deltaYMeter)
   drawMeter(1, power, deltaXMeter, deltaYMeter)
 end

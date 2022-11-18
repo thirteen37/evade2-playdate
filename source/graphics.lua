@@ -3,7 +3,7 @@ local gfx <const> = playdate.graphics
 
 SCREEN_WIDTH, SCREEN_HEIGHT = playdate.display.getSize()
 SCREEN_RECT = geo.rect.new(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
-Z_SCALE = 1
+Z_SCALE = 0.5
 LINE_WIDTH = 4
 
 function DrawVectorGraphic(graphic, x, y, theta, scaleFactor)
