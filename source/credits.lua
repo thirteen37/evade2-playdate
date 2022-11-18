@@ -65,9 +65,9 @@ function CreditsTypewriter()
     return next()
   end
   for i = 1, lineNumber-1 do
-    FontPrintString(6, (i * 10) - 4, currentScreen[i], 0.9)
+    FontPrintString(20, (i * 28) - 4, currentScreen[i], 2.5)
   end
-  FontPrintString(6, (lineNumber * 10) - 4, currentScreen[lineNumber]:sub(1, offset), 0.9)
+  FontPrintString(20, (lineNumber * 28) - 4, currentScreen[lineNumber]:sub(1, offset), 2.5)
   if screen > #SCREENS then
     return MODE_SPLASH
   end

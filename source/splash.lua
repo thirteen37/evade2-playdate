@@ -24,9 +24,12 @@ function SplashEntry()
 end
 
 function SplashWait()
-  FontPrintStringRotatedX(15, 25, theta:currentValue(), "EVADE 2", 2)
+  FontPrintStringRotatedX(47, 75, theta:currentValue(), "EVADE 2", 6)
+  if theta:ended() then
+    FontPrintString(104, 120, "FOR PLAYDATE", 2)
+  end
   if blinker.on then
-    FontPrintString(45, 52, "START", 1)
+    FontPrintString(164, 190, "START", 2)
   end
   if transition or playdate.buttonJustPressed(playdate.kButtonRight) then
     local next_mode

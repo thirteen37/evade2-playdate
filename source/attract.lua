@@ -13,13 +13,13 @@ local offset
 local SCREENS = {
   {graphics=ENEMY_GRAPHICS["scout"],
    text="SCOUT",
-   x=46, y=52},
+   x=146, y=156},
   {graphics=ENEMY_GRAPHICS["heavy_bomber"],
    text="BOMBER",
-   x=41, y=52},
+   x=133, y=156},
   {graphics=ENEMY_GRAPHICS["assault"],
    text="ASSAULT",
-   x=37, y=52},
+   x=119, y=156},
 }
 
 local next
@@ -63,8 +63,8 @@ function AttractTypewriter()
   if playdate.buttonJustPressed(playdate.kButtonRight) then
     return next()
   end
-  DrawVectorGraphic(currentScreen.graphics, 64, 24, 0, 2)
-  FontPrintString(currentScreen.x, currentScreen.y, currentScreen.text:sub(1, offset))
+  DrawVectorGraphic(currentScreen.graphics, 200, 83, 0, 1)
+  FontPrintString(currentScreen.x, currentScreen.y, currentScreen.text:sub(1, offset), 3)
   if screen > #SCREENS then
     return MODE_SPLASH
   end
