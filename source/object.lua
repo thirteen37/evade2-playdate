@@ -1,5 +1,7 @@
 import "camera.lua"
 
+local gfx <const> = playdate.graphics
+
 local objects = {}
 
 function Run()
@@ -91,16 +93,10 @@ function Object:draw()
       local dx = CameraX() - self.x
       local dy = CameraY() - self.y
       local angle = math.atan(dy, dx)
-      DrawVectorGraphic(
-        {
-          {1 - 2, 0 - 2, 2 - 2, 0 - 2},
-          {0 - 2, 1 - 2, 3 - 2, 1 - 2},
-          {0 - 2, 2 - 2, 3 - 2, 2 - 2},
-          {1 - 2, 3 - 2, 2 - 2, 3 - 2},
-        },
-        SCREEN_WIDTH / 2 + math.cos(angle) * 32,
-        SCREEN_HEIGHT / 2 + math.sin(angle) * 32,
-        0, 1
+      gfx.fillCircleAtPoint(
+        SCREEN_WIDTH / 2 + math.cos(angle) * 96,
+        SCREEN_HEIGHT / 2 + math.sin(angle) * 96,
+        4
       )
     end
   end
