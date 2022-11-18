@@ -17,7 +17,7 @@ function NextWaveEntry()
 end
 
 function NextWaveRun()
-  FontPrintString(26, 5, "NEXT WAVE " .. (GameWave() + 1), 200/256)
+  FontPrintString(GameWave() < 10 and 95 or 84, 45, "NEXT WAVE " .. (GameWave() + 1), 2.5)
   RechargeShield()
   RechargePower()
   if continue then

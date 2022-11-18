@@ -13,7 +13,7 @@ function GetReadyEntry()
 end
 
 function GetReadyRun()
-  FontPrintStringRotatedX(30, 35, theta:currentValue(), "GET READY!")
+  FontPrintStringRotatedX(51, 105, theta:currentValue(), "GET READY!", 4)
   if theta:ended() then
     return MODE_GAME
   end

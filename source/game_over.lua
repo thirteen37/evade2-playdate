@@ -13,8 +13,8 @@ function GameOverLoop()
   if theta:ended() then
     return MODE_SPLASH
   end
-  FontPrintStringRotatedX(30, 20, theta:currentValue(), "GAME OVER", 1)
-  FontPrintString(wave < 9 and 18 or 13, 45, "WAVES SURVIVED: " .. (wave - 1), 0.75)
+  FontPrintStringRotatedX(96, 90, theta:currentValue(), "GAME OVER", 3)
+  FontPrintString(wave < 10 and 62 or 53, 140, "WAVES SURVIVED: " .. (wave - 1), 2)
 end
 
 function GameOverEntry()

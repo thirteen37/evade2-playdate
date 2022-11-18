@@ -17,7 +17,7 @@ function WarpEntry()
 end
 
 function WarpNext()
-  FontPrintString(35, 5, "WARP TO ACE!", 190/256)
+  FontPrintString(84, 45, "WARP TO ACE!", 2.5)
   RechargeShield()
   RechargePower()
   if continue then
