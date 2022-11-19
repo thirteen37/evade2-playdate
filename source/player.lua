@@ -15,6 +15,7 @@ local player_alt = false
 local player_hit = false
 local active = false
 local hud = false
+local invertControls = false
 
 function PlayerInit()
   CameraVZ(CAMERA_VZ)
@@ -82,11 +83,20 @@ function BeforeRender()
     if playdate.buttonIsPressed(playdate.kButtonLeft) then
       deltaX = 12
     end
-    if playdate.buttonIsPressed(playdate.kButtonUp) then
-      deltaY = -12
-    end
-    if playdate.buttonIsPressed(playdate.kButtonDown) then
-      deltaY = 12
+    if invertControls then
+      if playdate.buttonIsPressed(playdate.kButtonUp) then
+        deltaY = 12
+      end
+      if playdate.buttonIsPressed(playdate.kButtonDown) then
+        deltaY = -12
+      end
+    else
+      if playdate.buttonIsPressed(playdate.kButtonUp) then
+        deltaY = -12
+      end
+      if playdate.buttonIsPressed(playdate.kButtonDown) then
+        deltaY = 12
+      end
     end
     local bullet = Bullet:new()
     bullet:fire(deltaX, deltaY, player_alt)
@@ -113,12 +123,22 @@ function BeforeRender()
   else
     CameraVX(0)
   end
-  if playdate.buttonIsPressed(playdate.kButtonDown) then
-    CameraVY(DELTACONTROL)
-  elseif playdate.buttonIsPressed(playdate.kButtonUp) then
-    CameraVY(-DELTACONTROL)
+  if invertControls then
+    if playdate.buttonIsPressed(playdate.kButtonDown) then
+      CameraVY(-DELTACONTROL)
+    elseif playdate.buttonIsPressed(playdate.kButtonUp) then
+      CameraVY(DELTACONTROL)
+    else
+      CameraVY(0)
+    end
   else
-    CameraVY(0)
+    if playdate.buttonIsPressed(playdate.kButtonDown) then
+      CameraVY(DELTACONTROL)
+    elseif playdate.buttonIsPressed(playdate.kButtonUp) then
+      CameraVY(-DELTACONTROL)
+    else
+      CameraVY(0)
+    end
   end
 end
 
@@ -151,14 +171,26 @@ function AfterRender()
     deltaXMeter = 3
     deltaXCrossHairs = -8
   end
-  if playdate.buttonIsPressed(playdate.kButtonUp) then
-    consoleY -= 6
-    deltaYMeter = -3
-    deltaYCrossHairs = 8
-  elseif playdate.buttonIsPressed(playdate.kButtonDown) then
-    consoleY += 6
-    deltaYMeter = 3
-    deltaYCrossHairs = -8
+  if invertControls then
+    if playdate.buttonIsPressed(playdate.kButtonDown) then
+      consoleY -= 6
+      deltaYMeter = -3
+      deltaYCrossHairs = 8
+    elseif playdate.buttonIsPressed(playdate.kButtonUp) then
+      consoleY += 6
+      deltaYMeter = 3
+      deltaYCrossHairs = -8
+    end
+  else
+    if playdate.buttonIsPressed(playdate.kButtonUp) then
+      consoleY -= 6
+      deltaYMeter = -3
+      deltaYCrossHairs = 8
+    elseif playdate.buttonIsPressed(playdate.kButtonDown) then
+      consoleY += 6
+      deltaYMeter = 3
+      deltaYCrossHairs = -8
+    end
   end
   hud_console:drawCentered(consoleX, consoleY)
   hud_crosshairs:drawCentered(200 + deltaXCrossHairs, 120 + deltaYCrossHairs)
@@ -190,4 +222,8 @@ function PlayerHud(h)
     hud = h
   end
   return hud
+end
+
+function InvertControls(b)
+  invertControls = b
 end
