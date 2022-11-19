@@ -26,7 +26,7 @@ function StarfieldRender()
   local cz = CameraZ()
 
   for i = 1, NUM_STARS do
-	local zz = (starZ[i] - cz) * Z_SCALE
+    local zz = (starZ[i] - cz) * Z_SCALE
     if (zz < 0) then
       initStar(i)
       zz = (starZ[i] - cz) * Z_SCALE
@@ -38,7 +38,14 @@ function StarfieldRender()
     if x < 0 or x > SCREEN_WIDTH or y < 0 or y > SCREEN_HEIGHT then
       initStar(i)
     else
-      gfx.drawPixel(x, y)
+      local zDist = starZ[i] - cz
+      if zDist < 128 then
+        gfx.fillRect(x-1, y-1, 3, 3)
+      elseif zDist < 256 then
+        gfx.fillRect(x, y, 2, 2)
+      else
+        gfx.drawPixel(x, y)
+      end
     end
   end
 end
