@@ -24,6 +24,10 @@ function PlayScore(midiFile)
   replay()
 end
 
+function MuteMusic(b)
+  scoreChannel:setVolume(b and 0 or 1)
+end
+
 RAW_SOUNDS = {
   ["player_shoot"]={
     tempo=22,
@@ -61,6 +65,7 @@ RAW_SOUNDS = {
   },
 }
 SOUNDS = {}
+SFX_CHANNELS = {}
 for name, sfx in pairs(RAW_SOUNDS) do
   local sfxSynth = snd.synth.new(snd.kWaveSquare)
   local sfxInstrument = snd.instrument.new(sfxSynth)
@@ -81,6 +86,7 @@ for name, sfx in pairs(RAW_SOUNDS) do
     sfxSynth:setFrequencyMod(envelope)
   end
   SOUNDS[name] = sfxSequence
+  table.insert(SFX_CHANNELS, sfxChannel)
 end
 
 function PlaySound(s)
@@ -89,5 +95,11 @@ function PlaySound(s)
     sfx:goToStep(1)
   else
     sfx:play()
+  end
+end
+
+function MuteSfx(b)
+  for _, channel in pairs(SFX_CHANNELS) do
+    channel:setVolume(b and 0 or 1)
   end
 end
