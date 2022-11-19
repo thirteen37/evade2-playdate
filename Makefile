@@ -8,5 +8,5 @@ build: evade2.pdx
 clean:
 	rm -rf *.pdx
 
-%.pdx: source/*.lua
+%.pdx: source/*.lua source/pdxinfo
 	pdc source $@
