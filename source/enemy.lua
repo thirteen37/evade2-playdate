@@ -202,6 +202,26 @@ function EnemyGenocide()
   enemies = {}
 end
 
+local function terminalExplode(self)
+  self.explode = true
+  self.state += 1
+  if behindCamera(self) or self.state > 58 then
+    Free(self)
+    Remove(enemies, self)
+  end
+  self.movement = terminalExplode
+end
+
+function EnemyExplodeAll()
+  for _, enemy in pairs(enemies) do
+    enemy.movement = terminalExplode
+  end
+end
+
+function EnemyAllExploded()
+  return #enemies == 0
+end
+
 local function init(self)
   self.explode = false
   self.collision = false

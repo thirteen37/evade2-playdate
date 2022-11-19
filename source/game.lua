@@ -49,9 +49,12 @@ function GameNext()
   end
   -- if kills > 0 then  -- <<- Debug
   if kills > ((10 + wave) * difficulty) then
-    BulletGenocide()
-    EnemyGenocide()
-    return MODE_WARP
+    if not EnemyAllExploded() then
+      BulletGenocide()
+      EnemyExplodeAll()
+    else
+      return MODE_WARP
+    end
   end
 end
 
