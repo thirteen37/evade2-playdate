@@ -58,6 +58,14 @@ end
 
 function AttractTypewriter()
   if playdate.buttonJustPressed(playdate.kButtonA) then
+    if typewriterTimer then
+      typewriterTimer:remove()
+      typewriterTimer = nil
+    end
+    if holdTimer then
+      holdTimer:remove()
+      holdTimer = nil
+    end
     return MODE_GET_READY
   end
   if playdate.buttonJustPressed(playdate.kButtonRight) then
