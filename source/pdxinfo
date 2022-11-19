@@ -4,4 +4,4 @@ description=First-person space sim
 bundleID=io.lyx.evade2
 version=1.0
 buildNumber=58
-imagePath=images/launcher
+imagePath=card/
