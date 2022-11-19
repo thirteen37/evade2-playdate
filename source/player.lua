@@ -143,10 +143,10 @@ function BeforeRender()
 end
 
 local hud_console = gfx.image.new("images/hud_console_img")
--- local hud_bottom_left = gfx.image.new("images/hud_bottom_left")
--- local hud_bottom_right = gfx.image.new("images/hud_bottom_right")
--- local hud_top_left = gfx.image.new("images/hud_top_left")
--- local hud_top_right = gfx.image.new("images/hud_top_right")
+local hud_bottom_left = gfx.image.new("images/hud_bottom_left")
+local hud_bottom_right = gfx.image.new("images/hud_bottom_right")
+local hud_top_left = gfx.image.new("images/hud_top_left")
+local hud_top_right = gfx.image.new("images/hud_top_right")
 local hud_crosshairs = gfx.image.new("images/hud_crosshairs")
 function AfterRender()
   if not hud then return end
@@ -156,43 +156,47 @@ function AfterRender()
     playdate.display.setInverted(true)
   end
   player_hit = false
-  local consoleX = 200
-  local consoleY = 232
-  deltaXMeter = 0
-  deltaYMeter = 0
-  deltaXCrossHairs = 0
-  deltaYCrossHairs = 0
+  local deltaXConsole = 0
+  local deltaYConsole = 0
+  local deltaXMeter = 0
+  local deltaYMeter = 0
+  local deltaXCrossHairs = 0
+  local deltaYCrossHairs = 0
   if playdate.buttonIsPressed(playdate.kButtonRight) then
-    consoleX -= 6
+    deltaXConsole = -6
     deltaXMeter = -3
     deltaXCrossHairs = 8
   elseif playdate.buttonIsPressed(playdate.kButtonLeft) then
-    consoleX += 6
+    deltaXConsole = 6
     deltaXMeter = 3
     deltaXCrossHairs = -8
   end
   if invertControls then
     if playdate.buttonIsPressed(playdate.kButtonDown) then
-      consoleY -= 6
+      deltaYConsole = -6
       deltaYMeter = -3
       deltaYCrossHairs = 8
     elseif playdate.buttonIsPressed(playdate.kButtonUp) then
-      consoleY += 6
+      deltaYConsole = 6
       deltaYMeter = 3
       deltaYCrossHairs = -8
     end
   else
     if playdate.buttonIsPressed(playdate.kButtonUp) then
-      consoleY -= 6
+      deltaYConsole = -6
       deltaYMeter = -3
       deltaYCrossHairs = 8
     elseif playdate.buttonIsPressed(playdate.kButtonDown) then
-      consoleY += 6
+      deltaYConsole = 6
       deltaYMeter = 3
       deltaYCrossHairs = -8
     end
   end
-  hud_console:drawCentered(consoleX, consoleY)
+  hud_console:drawCentered(SCREEN_WIDTH / 2 - deltaXConsole, SCREEN_HEIGHT - 8 - deltaYConsole)
+  hud_bottom_left:drawCentered(12 - deltaXConsole, SCREEN_HEIGHT - 12 - deltaYConsole)
+  hud_bottom_right:drawCentered(SCREEN_WIDTH - 12 - deltaXConsole, SCREEN_HEIGHT - 12 - deltaYConsole)
+  hud_top_left:drawCentered(25 - deltaXConsole, 12 - deltaYConsole)
+  hud_top_right:drawCentered(SCREEN_WIDTH - 25 - deltaXConsole, 12 - deltaYConsole)
   hud_crosshairs:drawCentered(200 + deltaXCrossHairs, 120 + deltaYCrossHairs)
   drawMeter(0, shield, deltaXMeter, deltaYMeter)
   drawMeter(1, power, deltaXMeter, deltaYMeter)
