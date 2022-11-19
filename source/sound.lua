@@ -1,6 +1,6 @@
 local snd <const> = playdate.sound
 
-local synth = snd.synth.new(snd.kWaveSquare)
+local synth = snd.synth.new(snd.kWaveSine)
 local instrument = snd.instrument.new(synth)
 local scoreChannel = snd.channel.new()
 scoreChannel:addSource(instrument)
@@ -50,6 +50,13 @@ RAW_SOUNDS = {
       {step=3, note="F2", length=2, velocity=128/128},
     }
   },
+  ["enemy_hit"]={
+    tempo=1,
+    notes={
+      {step=1, note="D2", length=2, velocity=128/128},
+      {step=3, note="D3", length=2, velocity=128/128},
+    }
+  },
   ["next_attract_screen"]={
     tempo=1,
     notes={
@@ -71,6 +78,7 @@ for name, sfx in pairs(RAW_SOUNDS) do
   local sfxInstrument = snd.instrument.new(sfxSynth)
   local sfxChannel = snd.channel.new()
   sfxChannel:addSource(sfxInstrument)
+  sfxChannel:setVolume(0.2)
   local sfxTrack = snd.track.new()
   sfxTrack:setNotes(sfx.notes)
   sfxTrack:setInstrument(sfxInstrument)
