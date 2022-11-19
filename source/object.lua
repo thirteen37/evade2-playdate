@@ -1,6 +1,7 @@
 import "camera.lua"
 
 local gfx <const> = playdate.graphics
+local geo <const> = playdate.geometry
 
 local objects = {}
 
@@ -80,6 +81,16 @@ function Object:move()
   self.z += self.vz
 end
 
+local blip = geo.polygon.new(1, 0, 0, 0.5, 0, -0.5, 1, 0)
+local function drawBlip(angle, distance)
+  local transform = geo.affineTransform.new()
+  transform:scale(math.min(distance / 50, 10), math.max(6000 / distance, 6))
+  transform:translate(90, 0)
+  transform:rotate(math.deg(angle))
+  transform:translate(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+  gfx.fillPolygon(transform:transformedPolygon(blip))
+end
+
 function Object:draw()
   if #self.lines == 0 or self.z <= CameraZ() then return end
   local zz = (self.z - CameraZ()) * Z_SCALE
@@ -93,11 +104,8 @@ function Object:draw()
       local dx = CameraX() - self.x
       local dy = CameraY() - self.y
       local angle = math.atan(dy, dx)
-      gfx.fillCircleAtPoint(
-        SCREEN_WIDTH / 2 + math.cos(angle) * 96,
-        SCREEN_HEIGHT / 2 + math.sin(angle) * 96,
-        4
-      )
+      local distance = (dx^2 + dy^2)^0.5
+      drawBlip(angle, distance)
     end
   end
 end
