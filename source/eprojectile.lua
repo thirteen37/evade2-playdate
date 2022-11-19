@@ -22,9 +22,7 @@ function EProjectile:fire(enemy)
 end
 
 function EProjectile:run()
-  Object.run(self)
   if CameraCollidesWith(self) then
-    -- TODO: is in game mode?
     Hit(10)
     Free(self)
     Remove(projectiles, self)

@@ -37,7 +37,6 @@ function Bullet:fire(deltaX, deltaY, alt)
 end
 
 function Bullet:run()
-  Object.run(self)
   if self.collision then
     self.collision = false
     self.explode = true

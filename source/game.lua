@@ -8,6 +8,8 @@ local asteriods = {}
 local difficulty
 local kills
 local wave
+local total_kills = 0
+local max_wave = 0
 
 function GameWave()
   return wave
@@ -41,7 +43,7 @@ local function gameBirth()
  end
 
 function GameNext()
-  Run()
+  ObjectsMoveDraw()
   if PlayerDead() then
     return MODE_GAMEOVER
   end
@@ -57,6 +59,7 @@ function GameEntry()
   PlayerActive(true)
   PlayerHud(true)
   wave += 1
+  if wave > max_wave then max_wave = wave end
   if wave % 4 == 0 then
     difficulty += 1
   end
@@ -69,6 +72,7 @@ end
 
 function GameKilled()
   kills += 1
+  total_kills += 1
 end
 
 function GameDifficulty()
@@ -80,4 +84,14 @@ function GameInit()
   kills = 0
   wave = 0
   PlayerInit()
+end
+
+function TotalKills(k)
+  if k then total_kills = k end
+  return total_kills
+end
+
+function MaxWave(w)
+  if w then max_wave = w end
+  return max_wave
 end

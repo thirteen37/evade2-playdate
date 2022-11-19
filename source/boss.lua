@@ -4,6 +4,8 @@ import "object.lua"
 
 Z_DIST = 256
 
+local total_kills = 0
+
 Boss = Object:new()
 
 function Boss:init(type)
@@ -17,6 +19,7 @@ function Boss:init(type)
   -- self.hit_points = 1  -- <<- debug
   self.hit_points = 20 + (GameDifficulty() * type)
   self.timer = 0
+  self.dead = false
 end
 
 function Boss:hit()
@@ -32,13 +35,12 @@ end
 function Boss:exploding()
   self.state += 1
   if self.state > 58 then
-    Free(boss)
+    self.dead = true
+    total_kills += 1
+    Free(self)
     CameraVZ(CAMERA_VZ)
-    return MODE_NEXT_WAVE
   end
 end
-
-local boss
 
 Boss1 = Boss:new()
 Boss2 = Boss:new()
@@ -302,13 +304,15 @@ function Boss3:randomize_flee()
   self.theta = math.random(-180, 180)
 end
 
+local boss
+
 function BossWait()
-  Run()
+  ObjectsMoveDraw()
   if PlayerDead() then
     return MODE_GAMEOVER
   end
-  if boss.explode and boss.state > 58 then
-    return MODE_NEXT_WAVE -- end?
+  if boss.dead then
+    return MODE_NEXT_WAVE
   end
 end
 
@@ -324,4 +328,9 @@ function BossEntry()
     boss = Boss1:new()
   end
   boss:init()
+end
+
+function BossKills(k)
+  if k then total_kills = k end
+  return total_kills
 end

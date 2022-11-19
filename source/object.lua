@@ -4,7 +4,7 @@ local gfx <const> = playdate.graphics
 
 local objects = {}
 
-function Run()
+function ObjectsMoveDraw()
   for _, o in pairs(objects) do
     o:move()
     o:draw()
@@ -102,12 +102,9 @@ function Object:draw()
   end
 end
 
-function Object:run()
-end
-
 function ObjectRun()
   if not PlayerActive() then return end
   for _, o in pairs(objects) do
-    o:run()
+    if o.run then o:run() end
   end
 end
