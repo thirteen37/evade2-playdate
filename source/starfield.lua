@@ -6,7 +6,7 @@ local starX = {}
 local starY = {}
 local starZ = {}
 
-NUM_STARS = 40
+NUM_STARS = 30
 
 local function initStar(i)
   starX[i] = math.random(-256, 256) + CameraX()
