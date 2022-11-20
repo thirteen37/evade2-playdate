@@ -1,3 +1,4 @@
+import "asteroid.lua"
 import "enemy.lua"
 import "eprojectile.lua"
 import "font.lua"
@@ -37,7 +38,8 @@ local function gameBirth()
   if wave > 3 then
     local num_asteroids = math.min(math.max(wave, 3), 1) + 1
     for i = 1, num_asteroids do
-      -- table.insert(asteroids, Asteroid:new())
+      local asteroid = Asteroid:new()
+      asteroid:entry()
     end
   end
  end
@@ -51,6 +53,7 @@ function GameNext()
   if kills > ((10 + wave) * difficulty) then
     if not EnemyAllExploded() then
       BulletGenocide()
+      AsteroidGenocide()
       EnemyExplodeAll()
     else
       return MODE_WARP
