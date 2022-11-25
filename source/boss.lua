@@ -309,9 +309,15 @@ local boss
 function BossWait()
   ObjectsMoveDraw()
   if PlayerDead() then
+    BulletGenocide()
+    EProjectileGenocide()
+    Free(boss)
     return MODE_GAMEOVER
   end
   if boss.dead then
+    BulletGenocide()
+    EProjectileGenocide()
+    Free(boss)
     return MODE_NEXT_WAVE
   end
 end

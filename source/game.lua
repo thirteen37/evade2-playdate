@@ -47,12 +47,17 @@ local function gameBirth()
 function GameNext()
   ObjectsMoveDraw()
   if PlayerDead() then
+    BulletGenocide()
+    EProjectileGenocide()
+    AsteroidGenocide()
+    EnemyGenocide()
     return MODE_GAMEOVER
   end
   -- if kills > 0 then  -- <<- Debug
   if kills > ((10 + wave) * difficulty) then
     if not EnemyAllExploded() then
       BulletGenocide()
+      EProjectileGenocide()
       AsteroidGenocide()
       EnemyExplodeAll()
     else
