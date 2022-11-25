@@ -3,5 +3,5 @@ author=thirteen37
 description=First-person space sim
 bundleID=io.lyx.evade2
 version=1.0
-buildNumber=60
+buildNumber=62
 imagePath=card/
