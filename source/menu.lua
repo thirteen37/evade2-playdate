@@ -12,16 +12,19 @@ end
 local function musicCallback(b)
   settings.music = b
   MuteMusic(not settings.music)
+  saveSettings()
 end
 
 local function sfxCallback(b)
   settings.sfx = b
   MuteSfx(not settings.sfx)
+  saveSettings()
 end
 
 local function controlsCallback(b)
   settings.controls = b
   InvertControls(settings.controls)
+  saveSettings()
 end
 
 local function restoreSettings()
