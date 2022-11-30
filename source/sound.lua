@@ -30,14 +30,14 @@ end
 
 RAW_SOUNDS = {
   ["player_shoot"]={
-    tempo=22,
+    tempo=88,
     notes={
       {step=1, note="E5", length=11, velocity=110/128},
     },
     freq_mod=-1
   },
   ["enemy_shoot"]={
-    tempo=22,
+    tempo=88,
     notes={
       {step=1, note="E4", length=11, velocity=110/128},
     },

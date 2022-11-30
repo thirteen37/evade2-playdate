@@ -90,6 +90,7 @@ function Boss1:action()
       EProjectileGenocide()
       self.explode = true
       self.run = self.exploding
+      PlaySound("enemy_hit")
       return
     end
     self.lines = {}  -- hide
@@ -178,6 +179,7 @@ function Boss2:action()
       EProjectileGenocide()
       self.explode = true
       self.run = self.exploding
+      PlaySound("enemy_hit")
       return
     end
     self.lines = {}  -- hide
@@ -261,6 +263,7 @@ function Boss3:action()
       EProjectileGenocide()
       self.explode = true
       self.run = self.exploding
+      PlaySound("enemy_hit")
       return
     end
     self.lines = {}  -- hide

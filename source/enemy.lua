@@ -119,6 +119,7 @@ local function runAway(self)
     return
   end
   if death(self) then
+    PlaySound("enemy_hit")
     self.movement = explode
     return
   end
