@@ -1,9 +1,6 @@
 local snd <const> = playdate.sound
 
-local synth = snd.synth.new(snd.kWaveSine)
-local instrument = snd.instrument.new(synth)
 local scoreChannel = snd.channel.new()
-scoreChannel:addSource(instrument)
 local sequence
 
 function PlayScore(midiFile)
@@ -14,7 +11,9 @@ function PlayScore(midiFile)
   end
   sequence = snd.sequence.new(midiFile)
   for i = 1, sequence:getTrackCount() do
-    sequence:getTrackAtIndex(i):setInstrument(instrument)
+    local synth = snd.synth.new(snd.kWaveSine)
+    scoreChannel:addSource(synth)
+    sequence:getTrackAtIndex(i):setInstrument(synth)
   end
   function replay(s)
     if not s or sequence == s then
@@ -75,13 +74,12 @@ SOUNDS = {}
 SFX_CHANNELS = {}
 for name, sfx in pairs(RAW_SOUNDS) do
   local sfxSynth = snd.synth.new(snd.kWaveSquare)
-  local sfxInstrument = snd.instrument.new(sfxSynth)
   local sfxChannel = snd.channel.new()
-  sfxChannel:addSource(sfxInstrument)
+  sfxChannel:addSource(sfxSynth)
   sfxChannel:setVolume(0.2)
   local sfxTrack = snd.track.new()
   sfxTrack:setNotes(sfx.notes)
-  sfxTrack:setInstrument(sfxInstrument)
+  sfxTrack:setInstrument(sfxSynth)
   local sfxSequence = snd.sequence.new()
   sfxSequence:setTempo(sfx.tempo >= 8 and sfx.tempo or 8)
   sfxSequence:addTrack(sfxTrack)
